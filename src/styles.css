@@ -1,5 +1,60 @@
-h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
+body {
+    background-color: #ddd;
 }
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Arimo', sans-serif;
+}
+
+#header {
+    width: 100%;
+    background-color: #222;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, .5);
+}
+#header .title {
+    color: #ccc;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+}
+#header .wrapper {
+    padding: 20px 40px;
+}
+#header .toolbar {
+    font-size: 22px;    
+    color: #999;
+    text-align: right;
+}
+#header .toolbar .fa:not(:last-child) {
+    margin-right: .5em;
+}
+
+.wrapper {
+    padding: 40px 20px;
+}
+
+.panel {
+    margin: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
+}
+.panel--header {
+    padding: 10px 20px;
+    background-color: #007991;
+    color: #fff;
+}
+.panel--contents {
+    padding: 10px 20px;
+    background-color: #fff; /*#93B7BE;*/
+    line-height: 2em;
+}
+
+/*
+ * Neutral blue: #007991
+ * Positive green: #439A86
+ * Observant yellow: #E9D985
+ */
