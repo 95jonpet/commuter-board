@@ -35,6 +35,9 @@
       rxjs: {
         defaultExtension: 'js'
       }
-    }
+    },
+    ngPackageNames: [
+      'http'
+    ]
   });
 })(this);
