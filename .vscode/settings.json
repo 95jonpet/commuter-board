@@ -1,0 +1,32 @@
+{
+    "search.exclude": {
+        ".idea": true,
+        "node_modules": true,
+        "jspm_packages": true,
+        "npm-debug.log": true,
+        "debug.log": true,
+        "src/**/*.js": true,
+        "!src/systemjs.config.extras.js": true,
+        "!src/systemjs.config.js": true,
+        "*.js.map": true,
+        "e2e/**/*.js": true,
+        "e2e/**/*.js.map": true,
+        "_test-output": true,
+        "_temp": true
+    },
+    "files.exclude": {
+        ".idea": true,
+        "node_modules": true,
+        "jspm_packages": true,
+        "npm-debug.log": true,
+        "debug.log": true,
+        "src/**/*.js": true,
+        "!src/systemjs.config.extras.js": true,
+        "!src/systemjs.config.js": true,
+        "*.js.map": true,
+        "e2e/**/*.js": true,
+        "e2e/**/*.js.map": true,
+        "_test-output": true,
+        "_temp": true
+    }
+}

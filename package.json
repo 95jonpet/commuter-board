@@ -1,7 +1,7 @@
 {
-  "name": "angular-quickstart",
+  "name": "commuter-board",
   "version": "1.0.0",
-  "description": "QuickStart package.json from the documentation, supplemented with testing support",
+  "description": "Commuter Board Application",
   "scripts": {
     "build": "tsc -p src/",
     "build:watch": "tsc -p src/ -w",
@@ -21,7 +21,7 @@
     "lint": "tslint ./src/**/*.ts -t verbose"
   },
   "keywords": [],
-  "author": "",
+  "author": "noslack",
   "license": "MIT",
   "dependencies": {
     "@angular/common": "~2.4.0",
