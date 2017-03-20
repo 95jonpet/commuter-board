@@ -48,7 +48,7 @@ h1, h2, h3, h4 {
     color: #fff;
 }
 .panel--contents {
-    padding: 10px 20px;
+    padding: 10px;
     background-color: #fff; /*#93B7BE;*/
     line-height: 2em;
 }

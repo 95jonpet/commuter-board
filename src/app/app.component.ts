@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
     selector: 'my-app',
     template: `
         <div class="pure-g">
-            <div class="pure-u-1-3" *ngFor="let line of subscribedLines">
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" *ngFor="let line of subscribedLines">
                 <div class="panel">
                     <div class="panel--header">
                         <i class="fa fa-fw fa-info-circle"></i> {{ line.start.name }} - {{ line.end.name }}
@@ -25,12 +25,39 @@ import { Component } from '@angular/core';
                     </div>
                 </div>
             </div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
+                <div class="panel">
+                    <div class="panel--header">
+                        <i class="fa fa-fw fa-info-circle"></i> Start - Stop
+                    </div>
+                    <div class="panel--contents">
+                        <table>
+                            <tr>
+                                <td>4 <i class="fa fa-fw fa-bus"></i> <span class="pipe">|</span></td>
+                                <td>10:30 Stockholms östra</td>
+                                <td>10:39 Odenplan</td>
+                            </tr>
+                            <tr>
+                                <td>4 <i class="fa fa-fw fa-bus"></i> <span class="pipe">|</span></td>
+                                <td>10:30 Stockholms östra</td>
+                                <td>10:39 Odenplan</td>
+                            </tr>
+                            <tr>
+                                <td>4 <i class="fa fa-fw fa-bus"></i> <span class="pipe">|</span></td>
+                                <td>10:30 Stockholms östra</td>
+                                <td>10:39 Odenplan</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     `,
     styles: [`
         .departures {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
         .departure.cancelled {
             background-color: #EB9486;
@@ -52,6 +79,15 @@ import { Component } from '@angular/core';
         }
         .departures .departure:not(:last-child) {
             border-bottom: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+        }
+        table tr td:last-child {
+            text-align: right;
+        }
+        .pipe {
+            color: #ddd;
         }
     `]
 })
