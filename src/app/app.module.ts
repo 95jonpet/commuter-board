@@ -6,6 +6,9 @@ import { AppComponent }  from './app.component';
 import { TopComponent }  from './top.component';
 import { CompactDeparturesComponent }  from './compact-departures.component';
 import { NextDeparturesComponent }  from './next-departures.component';
+import { AddCardComponent }  from './add-card.component';
+
+import { SLHttpService } from './http.service';
 
 import { SLHttpService } from './http.service';
 
@@ -16,6 +19,10 @@ import { SLHttpService } from './http.service';
     TopComponent,
     CompactDeparturesComponent,
     NextDeparturesComponent,
+    AddCardComponent,
+  ],
+  providers:[
+      SLHttpService
   ],
   providers:[
       SLHttpService

@@ -4,7 +4,7 @@ import { Departure } from './classes/departure';
 @Component({
     selector: 'app',
     template: `
-        <top [name]="name"></top>
+        <top [title]="name" (createCard)="onCreateCard()" (editCards)="onEditMode()"></top>
         <div class="wrapper">
             <div class="pure-g">
                 <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" *ngFor="let line of subscribedLines">
@@ -29,14 +29,16 @@ import { Departure } from './classes/departure';
                 </div>
             </div>
         </div>
+        <add-card [(editing)]="addingCard" *ngIf="addingCard"></add-card>
     `,
     styles: [`
         
     `]
 })
 export class AppComponent  {
-    public name = 'Commuter Board';
-
+    name: String = 'Commuter Board';
+    addingCard: boolean = false;
+    editMode: boolean = false;
     subscribedLines = [
         {
             start: {
@@ -60,9 +62,18 @@ export class AppComponent  {
             },
             nextDepartures: [
                 new Departure('604', 'bus', 'Storängsvägen', new Date(2017, 3, 21, 11, 0), 'Danderyds sjukhus', new Date(2017, 3, 21, 11, 15)),
-                new Departure('604', 'bus', 'Storängsvägen', new Date(2017, 3, 21, 11, 20), 'Danderyds sjukhus', new Date(2017, 3, 21, 11, 35)),
+                new Departure('604', 'subway', 'Storängsvägen', new Date(2017, 3, 21, 11, 20), 'Danderyds sjukhus', new Date(2017, 3, 21, 11, 35)),
                 new Departure('604', 'bus', 'Storängsvägen', new Date(2017, 3, 21, 11, 40), 'Danderyds sjukhus', new Date(2017, 3, 21, 11, 55)),
             ]
         },
     ];
+
+    onCreateCard() {
+        this.addingCard = true;
+    }
+
+    onEditMode() {
+        alert("Feature not yet implemented");
+        this.editMode = true;
+    }
 }
