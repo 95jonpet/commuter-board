@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Departure } from './departure';
+import { Departure } from './classes/departure';
 
 @Component({
     selector: 'next-departures',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Departure } from './departure';
+import { Departure } from './classes/departure';
 
 @Component({
     selector: 'app',
@@ -36,6 +36,7 @@ import { Departure } from './departure';
 })
 export class AppComponent  {
     public name = 'Commuter Board';
+
     subscribedLines = [
         {
             start: {

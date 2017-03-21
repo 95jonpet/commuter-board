@@ -7,6 +7,8 @@ import { TopComponent }  from './top.component';
 import { CompactDeparturesComponent }  from './compact-departures.component';
 import { NextDeparturesComponent }  from './next-departures.component';
 
+import { SLHttpService } from './http.service';
+
 @NgModule({
   imports:      [ BrowserModule, HttpModule ],
   declarations: [
@@ -14,6 +16,9 @@ import { NextDeparturesComponent }  from './next-departures.component';
     TopComponent,
     CompactDeparturesComponent,
     NextDeparturesComponent,
+  ],
+  providers:[
+      SLHttpService
   ],
   bootstrap:    [ AppComponent ]
 })

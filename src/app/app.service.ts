@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
-import { Stop } from './stop'; 
+import { Stop } from './classes/stop'; 
 
 @Injectable()
 export class AppService {
