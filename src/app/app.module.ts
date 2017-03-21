@@ -6,6 +6,7 @@ import { AppComponent }  from './app.component';
 import { TopComponent }  from './top.component';
 import { CompactDeparturesComponent }  from './compact-departures.component';
 import { NextDeparturesComponent }  from './next-departures.component';
+import { AddCardComponent }  from './add-card.component';
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule ],
@@ -14,6 +15,7 @@ import { NextDeparturesComponent }  from './next-departures.component';
     TopComponent,
     CompactDeparturesComponent,
     NextDeparturesComponent,
+    AddCardComponent,
   ],
   bootstrap:    [ AppComponent ]
 })

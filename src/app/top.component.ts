@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'top',
@@ -7,12 +7,12 @@ import { Component, Input } from '@angular/core';
             <div class="wrapper">
                 <div class="pure-g">
                     <div class="pure-u-1 pure-u-md-1-2">
-                        <h1 class="title">{{ name }}</h1>
+                        <h1 class="title">{{ title }}</h1>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <div class="toolbar">
-                            <i class="fa fa-plus"></i>
-                            <i class="fa fa-pencil"></i>
+                            <button (click)="onCreateCard()"><i class="fa fa-plus"></i></button>
+                            <button (click)="onEnterEditMode()"><i class="fa fa-pencil"></i></button>
                         </div>
                     </div>
                 </div>
@@ -34,17 +34,39 @@ import { Component, Input } from '@angular/core';
         .header .wrapper {
             padding: 20px 40px;
         }
-        .header .toolbar {
+
+        .toolbar {
             font-size: 22px;    
             color: #999;
             text-align: right;
         }
-        .header .toolbar .fa:not(:last-child) {
+        .toolbar button {
+            background: none;
+            border: none;
+            outline: none;
+        }
+        .toolbar button:hover, .toolbar button:focus {
+            color: #ccc;
+        }
+        .toolbar .fa {
+            cursor: pointer;
+        }
+        .toolbar button:not(:last-child) {
             margin-right: .5em;
         }
     `]
 })
-export class TopComponent  {
-    @Input()
-    name: String;
+export class TopComponent {
+    @Input() title: String;
+
+    @Output() createCard: EventEmitter<any> = new EventEmitter();
+    @Output() editCards: EventEmitter<any> = new EventEmitter();
+
+    onCreateCard() {
+        this.createCard.emit();
+    }
+
+    onEnterEditMode() {
+        this.editCards.emit();
+    }
 }
