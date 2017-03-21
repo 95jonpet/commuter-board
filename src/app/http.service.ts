@@ -13,6 +13,7 @@ export class SLHttpService {
         real_time: 'http://api.sl.se/api2/realtimedeparturesV4.json',
         line_data: 'http://api.sl.se/api2/LineData.json',
         locations: 'http://api.sl.se/api2/typeahead.json',
+        situation: 'http://api.sl.se/api2/trafficsituation.json',
     };
 
     private apiKeys = {
@@ -20,6 +21,7 @@ export class SLHttpService {
         real_time: '4802f8b8ac844743b3229e19e246e834',
         line_data: '00b60d61652548248190f7be606d63f2',
         locations: '95d5bdfff9344be38c0564e583a58323',
+        situation: '539911eb16fd40eb960084b630c626a5',
     };
 
     getRealtime(data: RealtimeInfo): Promise<any> {
