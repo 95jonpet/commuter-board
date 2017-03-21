@@ -9,15 +9,17 @@ import 'rxjs/add/operator/toPromise';
 export class SLHttpService {
     constructor (private http: Http) {}
     private urls = {
-        deviations: "http://api.sl.se/api2/deviations.json",
-        real_time: "http://api.sl.se/api2/realtimedeparturesV4.json",
-        line_data: "http://api.sl.se/api2/LineData.json",
-        locations: "http://api.sl.se/api2/typeahead.json"
+        deviations: 'http://api.sl.se/api2/deviations.json',
+        real_time: 'http://api.sl.se/api2/realtimedeparturesV4.json',
+        line_data: 'http://api.sl.se/api2/LineData.json',
+        locations: 'http://api.sl.se/api2/typeahead.json',
     };
 
     private apiKeys = {
-        deviations: "00b60d61652548248190f7be606d63f2",
-        real_time: "def456"
+        deviations: '5496f1c64ff44177b849d6b8b82009a6',
+        real_time: '4802f8b8ac844743b3229e19e246e834',
+        line_data: '00b60d61652548248190f7be606d63f2',
+        locations: '95d5bdfff9344be38c0564e583a58323',
     };
 
     getRealtime(data: RealtimeInfo): Promise<any> {
