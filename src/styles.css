@@ -11,29 +11,6 @@ h1, h2, h3, h4 {
     font-family: 'Arimo', sans-serif;
 }
 
-#header {
-    width: 100%;
-    background-color: #222;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, .5);
-}
-#header .title {
-    color: #ccc;
-    font-size: 22px;
-    font-weight: 400;
-    margin: 0;
-}
-#header .wrapper {
-    padding: 20px 40px;
-}
-#header .toolbar {
-    font-size: 22px;    
-    color: #999;
-    text-align: right;
-}
-#header .toolbar .fa:not(:last-child) {
-    margin-right: .5em;
-}
-
 .wrapper {
     padding: 40px 20px;
 }
@@ -51,6 +28,16 @@ h1, h2, h3, h4 {
     padding: 10px;
     background-color: #fff; /*#93B7BE;*/
     line-height: 2em;
+}
+
+.app-loading-spinner {
+    width: 100%;
+    margin-top: calc(50vh - 5vmin);
+    text-align: center;
+    vertical-align: middle;
+}
+.app-loading-spinner .fa {
+    font-size: 10vmin;
 }
 
 /*
