@@ -10,8 +10,6 @@ import { AddCardComponent }  from './add-card.component';
 
 import { SLHttpService } from './http.service';
 
-import { SLHttpService } from './http.service';
-
 @NgModule({
   imports:      [ BrowserModule, HttpModule ],
   declarations: [
@@ -20,9 +18,6 @@ import { SLHttpService } from './http.service';
     CompactDeparturesComponent,
     NextDeparturesComponent,
     AddCardComponent,
-  ],
-  providers:[
-      SLHttpService
   ],
   providers:[
       SLHttpService
