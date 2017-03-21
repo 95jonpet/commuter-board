@@ -8,6 +8,8 @@ import { CompactDeparturesComponent }  from './compact-departures.component';
 import { NextDeparturesComponent }  from './next-departures.component';
 import { AddCardComponent }  from './add-card.component';
 
+import { SLHttpService } from './http.service';
+
 @NgModule({
   imports:      [ BrowserModule, HttpModule ],
   declarations: [
@@ -16,6 +18,9 @@ import { AddCardComponent }  from './add-card.component';
     CompactDeparturesComponent,
     NextDeparturesComponent,
     AddCardComponent,
+  ],
+  providers:[
+      SLHttpService
   ],
   bootstrap:    [ AppComponent ]
 })
