@@ -7,14 +7,26 @@ import { Departure } from './classes/departure';
     template: `
         <div class="modal" (click)="onClose()">
             <div class="modal-content" (click)="$event.stopPropagation()">
-                <span class="close" (click)="onClose()">&times;</span>
-                <div class="pure-g">
-                    <div class="pure-u-1">Detta är en fin modal. <i class="fa fa-thumbs-o-up"></i></div>
+            	<div class="panel">
+            		<div class="panel--header">
+            			<div class="pure-g">
+            				<div class="pure-u-1-2">
+		            			<i class="fa fa-plus-circle"></i><p id="add-text">Lägg till</p>
+            				</div>
+            				<div class="pure-u-1-2">
+		                		<span class="close" (click)="onClose()">&times;</span>
+            				</div>
+	                	</div>
+                	</div>
+                	<div class="panel--contents">
+                	hejhejehj
+                	</div>
                 </div>
             </div>
         </div>
     `,
     styles: [`
+
         .modal {
             display: block;
             position: fixed;
@@ -31,13 +43,24 @@ import { Departure } from './classes/departure';
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
-            padding: 20px;
             border: 1px solid #888;
             width: 80%;
         }
+        .panel {
+        	margin: 0;
+        }
+
+        .fa-add-circle {
+        	float: left;
+        }
+        #add-text {
+        	margin: 0;
+        	margin-left: 10px;
+        	display: inline;
+        }
         
         .close {
-            color: #aaa;
+            color: #fff;
             float: right;
             font-size: 28px;
             font-weight: bold;
