@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { Departure } from './classes/departure';
+
 
 @Component({
     selector: 'add-card',
     template: `
-        <div class="modal">
-            <div class="modal-content">
+        <div class="modal" (click)="onClose()">
+            <div class="modal-content" (click)="$event.stopPropagation()">
                 <span class="close" (click)="onClose()">&times;</span>
                 <div class="pure-g">
                     <div class="pure-u-1">Detta är en fin modal. <i class="fa fa-thumbs-o-up"></i></div>
