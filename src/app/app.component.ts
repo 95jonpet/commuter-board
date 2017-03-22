@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Departure } from './classes/departure';
 import { Card } from './classes/card';
 import { AppService } from './app.service';
+import { SLHttpService } from './http.service';
 
 @Component({
     selector: 'app',
@@ -34,7 +35,7 @@ export class AppComponent  {
     editMode: boolean = false;
     cards: Card[];
 
-    constructor(private appService: AppService) {
+    constructor(private appService: AppService, private http: SLHttpService) {
         this.cards = appService.getCards();
     }
 
