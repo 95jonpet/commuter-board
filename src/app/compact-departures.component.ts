@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Departure } from './classes/departure';
 
 @Component({
@@ -25,9 +25,6 @@ import { Departure } from './classes/departure';
     `]
 })
 export class CompactDeparturesComponent  {
-    departures: Departure[] = [
-        new Departure('4', 'bus', 'Stockholms östra', new Date(2017, 3, 21, 10, 30), 'Odenplan', new Date(2017, 3, 21, 10, 39)),
-        new Departure('4', 'bus', 'Stockholms östra', new Date(2017, 3, 21, 10, 40), 'Odenplan', new Date(2017, 3, 21, 10, 49)),
-        new Departure('4', 'bus', 'Stockholms östra', new Date(2017, 3, 21, 10, 50), 'Odenplan', new Date(2017, 3, 21, 10, 59)),
-    ];
+    @Input()
+    departures: Departure[];
 }

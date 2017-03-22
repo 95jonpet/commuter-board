@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 
+import { AppService } from './app.service';
 import { AppComponent }  from './app.component';
 import { TopComponent }  from './top.component';
 import { CompactDeparturesComponent }  from './compact-departures.component';
@@ -20,7 +21,8 @@ import { SLHttpService } from './http.service';
     AddCardComponent,
   ],
   providers:[
-      SLHttpService
+      AppService,
+      SLHttpService,
   ],
   bootstrap:    [ AppComponent ]
 })

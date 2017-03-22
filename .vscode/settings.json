@@ -1,6 +1,7 @@
 {
     "search.exclude": {
         ".idea": true,
+        ".vscode": true,
         "node_modules": true,
         "jspm_packages": true,
         "npm-debug.log": true,
@@ -16,6 +17,7 @@
     },
     "files.exclude": {
         ".idea": true,
+        ".vscode": true,
         "node_modules": true,
         "jspm_packages": true,
         "npm-debug.log": true,

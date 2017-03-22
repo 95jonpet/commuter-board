@@ -11,8 +11,8 @@ import { Departure } from './classes/departure';
                 </span>
                 <span class="line-name pure-u-5-24">{{ departure.lineName }}</span>
                 <span class="text pure-u-15-24">
-                    Departure: <span class="departure-time">{{ departure.departureTime() }}</span> {{ departure.delay }}<br>
-                    Destination: {{ departure.arrivalTime() }}
+                    {{ departure.departureName }}: <span class="departure-time">{{ departure.departureTime() }}</span> {{ departure.delay }}<br>
+                    {{ departure.arrivalName }}: {{ departure.arrivalTime() }}
                 </span>
             </li>
         </ul>
@@ -28,7 +28,7 @@ import { Departure } from './classes/departure';
             text-decoration: line-through;
         }
         .departure.delayed {
-            background-color: #e9d985;            
+            background-color: #e9d985;
         }
         .departure.delayed .departure-time {
             text-decoration: line-through;
