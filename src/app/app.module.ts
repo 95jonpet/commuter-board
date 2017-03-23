@@ -8,6 +8,8 @@ import { TopComponent }  from './top.component';
 import { CompactDeparturesComponent }  from './compact-departures.component';
 import { NextDeparturesComponent }  from './next-departures.component';
 import { AddCardComponent }  from './add-card.component';
+import { AddStationCardComponent }  from './add-station-card.component';
+import { AddTripCardComponent }  from './add-trip-card.component';
 
 import { SLHttpService } from './http.service';
 
@@ -19,6 +21,8 @@ import { SLHttpService } from './http.service';
     CompactDeparturesComponent,
     NextDeparturesComponent,
     AddCardComponent,
+    AddStationCardComponent,
+    AddTripCardComponent,
   ],
   providers:[
       AppService,
