@@ -31,7 +31,7 @@ import { SLHttpService } from './http.service';
 })
 export class AppComponent  {
     name: String = 'Commuter Board';
-    addingCard: boolean = true; //FIXME: Set to false
+    addingCard: boolean = false;
     editMode: boolean = false;
     cards: Card[];
 
