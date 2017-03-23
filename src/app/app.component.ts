@@ -31,7 +31,7 @@ import { SLHttpService } from './http.service';
 })
 export class AppComponent  {
     name: String = 'Commuter Board';
-    addingCard: boolean = false;
+    addingCard: boolean = false; //change to true to show on load
     editMode: boolean = false;
     cards: Card[];
 

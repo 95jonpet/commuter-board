@@ -11,8 +11,7 @@ import { Departure } from './classes/departure';
 
                 <div class="pure-g">
                     <div class="pure-u-6-24">
-                        <label for="station-input">Station name</label>
-                        <input class="station-input" type="text" name="Station">
+                        <input class="station-input" type="text" name="Station" placeholder="Station name">
                     </div>
                     <div class="pure-u-18-24">
 
@@ -58,13 +57,14 @@ import { Departure } from './classes/departure';
 		.checkbox-custom-label {
 		    position: relative;
             margin-left: 10px !important;
+            margin-top: 3px !important;
             user-select: none;
 		}
 
 		.checkbox-custom + .checkbox-custom-label:before {
 		    content: '';
 		    background: #fff;
-		    border: 2px solid #ddd;
+		    border: 2px solid #ddd; 
 		    display: inline-block;
 		    vertical-align: middle;
 		    width: 20px;

@@ -10,14 +10,14 @@ import { Departure } from './classes/departure';
                 <legend>Add new trip</legend>
 
                 <div class="pure-g">
-                    <div class="pure-u-6-24">
-                        <label for="start-input">Start</label>
-                        <input class="start-input" type="text" name="start">
-
-                        <label for="destination-input">Destination</label>
-                        <input class="destination-input" type="text" name="destination">
+                    <div class="pure-u-5-24">
+                        <input class="start-input" type="text" name="start" placeholder="Start">
                     </div>
-                    <div class="pure-u-18-24">
+                    <div class="pure-u-1-24"></div>
+                    <div class="pure-u-5-24">
+                        <input class="destination-input" type="text" name="destination" placeholder="Destination">
+                    </div>
+                    <div class="pure-u-13-24">
 
                         <input id="boat" class="checkbox-custom" type="checkbox">
                         <label for="boat" class="checkbox-custom-label"><i class="fa fa-ship"></i> Boat</label>
@@ -41,6 +41,9 @@ import { Departure } from './classes/departure';
         .start-input, .destination-input {
             width: 100%;
         }
+        .start-input {
+        	margin-right: 10px;
+        }
 
 		.checkbox-custom {
 		    opacity: 0;
@@ -61,6 +64,7 @@ import { Departure } from './classes/departure';
 		.checkbox-custom-label {
 		    position: relative;
             margin-left: 10px !important;
+            margin-top: 3px !important;
             user-select: none;
 		}
 
