@@ -24,22 +24,23 @@ import { Departure } from './classes/departure';
                 				<legend>Add new station</legend>
 
                 				<div class="pure-g">
-                					<div class="pure-u-14-24">
-		                				<input type="station" name="Station">
+                					<div class="pure-u-6-24">
+		                				<input class="station-input" type="station" name="Station">
 		                			</div>
-		                			<div class="pure-u-10-24">
+		                			<div class="pure-u-18-24">
 		        						
-								        <input id="train" class="checkbox-custom" type="checkbox" checked>
-								        <label for="train" class="checkbox-custom-label"><i class="fa fa-train"></i> Train</label>
-								        <input id="subway" class="checkbox-custom" type="checkbox" checked>
-								        <label for="subway" class="checkbox-custom-label"><i class="fa fa-subway"></i> Subway</label>
-								        <input id="bus" class="checkbox-custom" type="checkbox" checked>
-								        <label for="bus" class="checkbox-custom-label"><i class="fa fa-bus"></i> Bus</label>    
 								        <input id="boat" class="checkbox-custom" type="checkbox">
 								        <label for="boat" class="checkbox-custom-label"><i class="fa fa-ship"></i> Boat</label>    
+                                        <input id="bus" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="bus" class="checkbox-custom-label"><i class="fa fa-bus"></i> Bus</label>    
+                                        <input id="subway" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="subway" class="checkbox-custom-label"><i class="fa fa-subway"></i> Subway</label>
+                                        <input id="train" class="checkbox-custom" type="checkbox" checked>
+                                        <label for="train" class="checkbox-custom-label"><i class="fa fa-train"></i> Train</label>
 								    </div>
-								   
-							    </div>
+                                   
+                                </div>
+                                <a class="pure-button" href="#">OK</a>
                 			</fieldset>
                 		</form>
                 	</div>
@@ -66,7 +67,7 @@ import { Departure } from './classes/departure';
             background-color: #fefefe;
             margin: 15% auto;
             border: 1px solid #888;
-            width: 80%;
+            width: 60%;
         }
         .panel {
         	margin: 0;
@@ -100,20 +101,30 @@ import { Departure } from './classes/departure';
         	padding-right: 20px;
         }
 
+        .station-input {
+            width: 100%;
+        }
+
 		.checkbox-custom {
 		    opacity: 0;
 		    position: absolute;   
 		}
 
+        .pure-form label{
+            margin: 0;
+        }
+
 		.checkbox-custom, .checkbox-custom-label {
 		    display: inline-block;
 		    vertical-align: middle;
-		    margin: 5px;
 		    cursor: pointer;
+            float: right;
 		}
 
 		.checkbox-custom-label {
 		    position: relative;
+            margin-left: 10px !important;
+            user-select: none;
 		}
 
 		.checkbox-custom + .checkbox-custom-label:before {
@@ -132,6 +143,10 @@ import { Departure } from './classes/departure';
 		.checkbox-custom:checked + .checkbox-custom-label:before {
 		    background-color: #007991;
 		}
+        .pure-button {
+            float:right;
+            margin-top: 10%;
+        }
     `]
 })
 export class AddCardComponent {
