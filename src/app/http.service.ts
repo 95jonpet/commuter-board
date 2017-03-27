@@ -38,9 +38,9 @@ export class SLHttpService {
                 resolve(response);
             });
         }).catch(error => {
-            return new Promise((resolve, reject) => { 
+            return new Promise((resolve, reject) => {
                 console.error(error);
-                reject(error); 
+                reject(error);
             });
         });
     }
@@ -114,7 +114,7 @@ export class SLHttpService {
         data.setKey(this.apiKeys.situation);
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
-            return new Promise((resolve, reject) {
+            return new Promise((resolve, reject) => {
                 // TODO: Handle response before resolving promise
                 resolve(response);
             });
