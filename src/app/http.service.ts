@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
-import { RealtimeInfo } from './classes/realtimeInfo';
 import { Deviations } from './classes/deviations';
-import { Location } from './classes/locations';
+import { RealtimeInfo } from './classes/realtimeInfo';
 import { LineData } from './classes/linedata';
+import { Location } from './classes/locations';
+import { Situation } from './classes/situation';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -26,13 +27,10 @@ export class SLHttpService {
         situation: '539911eb16fd40eb960084b630c626a5',
     };
 
-    getLocations(data: Location): Promise<any> {
-        if (!data) {
-            console.error("Function 'getLocations' requires a Location object\nRequired properties: ['query']");
-            return;
-        }
-        let url: string = this.urls.locations;
-        data.setKey(this.apiKeys.locations);
+    getDeviations(data?: Deviations): Promise<any> {
+        if (!data) data = new Deviations();
+        let url = this.urls.deviations;
+        data.setKey(this.apiKeys.deviations);
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {
@@ -40,29 +38,9 @@ export class SLHttpService {
                 resolve(response);
             });
         }).catch(error => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => { 
                 console.error(error);
-                reject(error);
-            });
-        });
-    }
-
-    getLineData(data: LineData): Promise<any> {
-        if (!data) {
-            console.error("Function 'getLineData' requires a LineData object\nRequired properties: ['model']");
-            return;
-        }
-        let url: string = this.urls.line_data;
-        data.setKey(this.apiKeys.line_data);
-        return this.sendGet(url, data.getRequestOptions()).then(response => {
-            return new Promise((resolve, reject) => {
-                // TODO: Handle response before resolving promise
-                resolve(response);
-            });
-        }).catch(error => {
-            return new Promise((resolve, reject) => {
-                console.error(error);
-                reject(error);
+                reject(error); 
             });
         });
     }
@@ -89,10 +67,33 @@ export class SLHttpService {
         });
     }
 
-    getDeviations(data?: Deviations): Promise<any> {
-        if (!data) data = new Deviations();
-        let url = this.urls.deviations;
-        data.setKey(this.apiKeys.deviations);
+    getLineData(data: LineData): Promise<any> {
+        if (!data) {
+            console.error("Function 'getLineData' requires a LineData object\nRequired properties: ['model']");
+            return;
+        }
+        let url: string = this.urls.line_data;
+        data.setKey(this.apiKeys.line_data);
+        return this.sendGet(url, data.getRequestOptions()).then(response => {
+            return new Promise((resolve, reject) => {
+                // TODO: Handle response before resolving promise
+                resolve(response);
+            });
+        }).catch(error => {
+            return new Promise((resolve, reject) => {
+                console.error(error);
+                reject(error);
+            });
+        });
+    }
+
+    getLocations(data: Location): Promise<any> {
+        if (!data) {
+            console.error("Function 'getLocations' requires a Location object\nRequired properties: ['query']");
+            return;
+        }
+        let url: string = this.urls.locations;
+        data.setKey(this.apiKeys.locations);
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {
@@ -100,9 +101,26 @@ export class SLHttpService {
                 resolve(response);
             });
         }).catch(error => {
-            return new Promise((resolve, reject) => { 
+            return new Promise((resolve, reject) => {
                 console.error(error);
-                reject(error); 
+                reject(error);
+            });
+        });
+    }
+
+    getSituation(data: Situation) {
+        if (!data) data = new Situation();
+        let url: string = this.urls.situation;
+        data.setKey(this.apiKeys.situation);
+
+        return this.sendGet(url, data.getRequestOptions()).then(response => {
+            return new Promise((resolve, reject) {
+                // TODO: Handle response before resolving promise
+                resolve(response);
+            });
+        }).catch(error => {
+            return new Promise((resolve, reject) => {
+                reject(error);
             });
         });
     }
