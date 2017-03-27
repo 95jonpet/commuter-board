@@ -11,6 +11,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class SLHttpService {
     constructor (private http: Http) {}
+
     private urls = {
         deviations: 'http://api.sl.se/api2/deviations.json',
         real_time: 'http://api.sl.se/api2/realtimedeparturesV4.json',
@@ -51,7 +52,7 @@ export class SLHttpService {
             console.error("Function 'getRealtime' requires a RealtimeInfo object\nRequired properties: ['SiteId', 'TimeWindow']");
             return;
         }
-        data.setKey(this.apiKeys.deviations);
+        data.setKey(this.apiKeys.real_time);
         let url: string = this.urls.real_time;
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
