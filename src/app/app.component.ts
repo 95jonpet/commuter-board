@@ -44,9 +44,9 @@ export class AppComponent  {
         this.cards = appService.getCards();
         var d = new Situation();
         http.getSituation(d).then(response => {
-            console.log(response);
+            //console.log(response);
         }).catch(error => {
-            console.error(error);
+            //console.error(error);
         });
     }
 

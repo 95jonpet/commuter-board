@@ -18,6 +18,7 @@ export class SLHttpService {
         line_data: 'http://api.sl.se/api2/LineData.json',
         locations: 'http://api.sl.se/api2/typeahead.json',
         situation: 'http://api.sl.se/api2/trafficsituation.json',
+        travel_planner: 'http://api.sl.se/api2/TravelplannerV2/trip.json',
     };
 
     private apiKeys = {
@@ -26,6 +27,7 @@ export class SLHttpService {
         line_data: '00b60d61652548248190f7be606d63f2',
         locations: '95d5bdfff9344be38c0564e583a58323',
         situation: '539911eb16fd40eb960084b630c626a5',
+        travel_planner: '6691dbde50884521b0ad314ee077762b',
     };
 
     private handleResponse(res: Response): Object {
@@ -34,7 +36,7 @@ export class SLHttpService {
          * property "_body", calm down. It doesn't know that a response won't have that property
          * which is why it complains. We, however, do know that it will.
          */
-        var data = JSON.parse(res._body).ResponseData;
+        var data = JSON.parse(res['_body']).ResponseData;
         return data;
     }
 

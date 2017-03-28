@@ -10,11 +10,7 @@ import { Departure } from './classes/departure';
 @Injectable()
 export class AppService {
     private cards: Card[] = [
-        new Card ('station', new Station(9192 ,'Slussen'), null, [
-            new Departure('4', 'train', 'Stockholms östra', new Date(2017, 3, 21, 10, 30), 'Odenplan', new Date(2017, 3, 21, 10, 39)),
-            new Departure('14', 'subway', 'Stockholms östra', new Date(2017, 3, 21, 10, 30), 'Odenplan', new Date(2017, 3, 21, 10, 39)),
-            new Departure('687B', 'ship', 'Stockholms östra', new Date(2017, 3, 21, 11, 0), 'Odenplan', new Date(2017, 3, 21, 10, 9)),
-        ], this.http),
+        new Card ('station', new Station(9192 ,'Slussen'), null, [], this.http),
         /*new Card ('station', 'Stockholms östra', null, [
             new Departure('4', 'train', 'Stockholms östra', new Date(2017, 3, 21, 10, 30), 'Odenplan', new Date(2017, 3, 21, 10, 39)),
             new Departure('14', 'subway', 'Stockholms östra', new Date(2017, 3, 21, 10, 30), 'Odenplan', new Date(2017, 3, 21, 10, 39)),

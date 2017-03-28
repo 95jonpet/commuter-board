@@ -11,7 +11,7 @@ import { Departure } from './classes/departure';
                 </span>
                 <span class="line-name pure-u-5-24">{{ departure.lineName }}</span>
                 <span class="text pure-u-15-24">
-                    {{ departure.departureName }}: <span class="departure-time">{{ departure.departureTime() }}</span> {{ departure.delay }}<br>
+                    {{ departure.departureName }}: <span class="departure-time">{{ departure.departureTime }}</span> {{ departure.delay }}<br>
                     {{ departure.arrivalName }}: {{ departure.arrivalTime() }}
                 </span>
             </li>
