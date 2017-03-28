@@ -3,6 +3,11 @@ import { Departure } from './classes/departure';
 import { Card } from './classes/card';
 import { AppService } from './app.service';
 import { SLHttpService } from './http.service';
+import { Deviations } from './classes/deviations';
+import { Location } from './classes/locations';
+import { RealtimeInfo } from './classes/realtimeInfo';
+import { LineData } from './classes/lineData';
+import { Situation } from './classes/situation';
 
 @Component({
     selector: 'app',
@@ -37,6 +42,12 @@ export class AppComponent  {
 
     constructor(private appService: AppService, private http: SLHttpService) {
         this.cards = appService.getCards();
+        var d = new Situation();
+        http.getSituation(d).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.error(error);
+        });
     }
 
     onCreateCard() {

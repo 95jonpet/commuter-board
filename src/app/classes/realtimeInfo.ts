@@ -7,6 +7,9 @@ export class RealtimeInfo extends RequestTemplate {
     Tram?: boolean;
     Ship?: boolean;
 
-    constructor(private SiteId: number, private TimeWindow: number) {super();}
+    constructor(private SiteId: number, private TimeWindow?: number) {
+        super();
+        this.TimeWindow = TimeWindow || 30;
+    }
 
 }

@@ -28,6 +28,16 @@ export class SLHttpService {
         situation: '539911eb16fd40eb960084b630c626a5',
     };
 
+    private handleResponse(res: Response): Object {
+        /**
+         * For those with IDE-like functionality it may say that Response has no
+         * property "_body", calm down. It doesn't know that a response won't have that property
+         * which is why it complains. We, however, do know that it will.
+         */
+        var data = JSON.parse(res._body).ResponseData;
+        return data;
+    }
+
     getDeviations(data?: Deviations): Promise<any> {
         if (!data) data = new Deviations();
         let url = this.urls.deviations;
@@ -35,8 +45,7 @@ export class SLHttpService {
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {
-                // TODO: Handle response before resolving promise
-                resolve(response);
+                resolve(this.handleResponse(response));
             });
         }).catch(error => {
             return new Promise((resolve, reject) => {
@@ -57,8 +66,7 @@ export class SLHttpService {
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {
-                // TODO: Handle response before resolving promise
-                resolve(response);
+                resolve(this.handleResponse(response));
             });
         }).catch(error => {
             return new Promise((resolve, reject) => {
@@ -77,8 +85,7 @@ export class SLHttpService {
         data.setKey(this.apiKeys.line_data);
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {
-                // TODO: Handle response before resolving promise
-                resolve(response);
+                resolve(this.handleResponse(response));
             });
         }).catch(error => {
             return new Promise((resolve, reject) => {
@@ -98,8 +105,7 @@ export class SLHttpService {
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {
-                // TODO: Handle response before resolving promise
-                resolve(response);
+                resolve(this.handleResponse(response));
             });
         }).catch(error => {
             return new Promise((resolve, reject) => {
@@ -116,8 +122,7 @@ export class SLHttpService {
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {
-                // TODO: Handle response before resolving promise
-                resolve(response);
+                resolve(this.handleResponse(response));
             });
         }).catch(error => {
             return new Promise((resolve, reject) => {

@@ -4,5 +4,5 @@ export class Location extends RequestTemplate {
     stationsOnly?: boolean;
     maxResults?: number;
 
-    constructor(private query: string) {super()};
+    constructor(private SearchString: string) {super()};
 }

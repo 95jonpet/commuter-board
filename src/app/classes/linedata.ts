@@ -8,7 +8,7 @@ export class LineData extends RequestTemplate {
         if (validModels.indexOf(model) < 0) {
             console.error("Invalid model value: '"+model+"'. Valid values:\n", validModels);
             this.model = null;
-            return;
+            throw "InvalidArgument";
         }
     };
 }
