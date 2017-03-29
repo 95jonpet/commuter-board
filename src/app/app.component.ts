@@ -40,8 +40,8 @@ export class AppComponent  {
     editMode: boolean = false;
     cards: Card[];
 
-    constructor(private appService: AppService, private http: SLHttpService) {
-        this.cards = appService.getCards();
+    constructor(private app: AppService, private http: SLHttpService) {
+        this.cards = app.getCards();
         var d = new Situation();
         http.getSituation(d).then(response => {
             //console.log(response);
@@ -52,6 +52,10 @@ export class AppComponent  {
 
     onCreateCard() {
         this.addingCard = true;
+    }
+
+    onStopCreatingCard() {
+        this.addingCard = false;
     }
 
     onEditMode() {

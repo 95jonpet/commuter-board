@@ -24,7 +24,7 @@ import { Departure } from './classes/departure';
                             <button class="pure-button" [ngClass]="{'pure-button-active': type == 'trip'}" (click)="setType('trip')">Start and destination</button>
                         </div>
 
-                		<add-station-card *ngIf="type == 'station'"></add-station-card>
+                		<add-station-card (onClose)="onClose()" *ngIf="type == 'station'"></add-station-card>
                         <add-trip-card *ngIf="type == 'trip'"></add-trip-card>
                 	</div>
                 </div>

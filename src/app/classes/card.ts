@@ -35,14 +35,12 @@ export class Card {
         var card = this;
         this.http.getTrip(new PlanData(this.from.id, this.to.id))
             .then(function (response) {
-                console.log(response);
                 response.TripList.Trip.forEach(function (trip: any) {
                     var departures: Departure[] = [];
                     trip.LegList.Leg.filter(function (leg: any) {
                             return leg.type.toLowerCase() != 'walk';
                         })
                         .forEach(function (leg: any) {
-                            console.log(leg);
                             var type = '';
                             switch (leg.type.toLowerCase()) {
                                 case 'metro':
@@ -75,7 +73,7 @@ export class Card {
         var card = this;
         this.http.getRealtime(new RealtimeInfo(this.from.id, 30))
             .then(function (data) {
-                [].concat(data.Buses, data.Metros, data.Trains, data.Trams, data.Ships) // Collect data
+                [].concat(data.Buses || [], data.Metros || [], data.Trains || [], data.Trams || [], data.Ships || []) // Collect data
                 .sort(function (a, b) { // Sort based on departure time / line number
                     var aVal = a.DisplayTime.split(' ')[0];
                     var bVal = b.DisplayTime.split(' ')[0];

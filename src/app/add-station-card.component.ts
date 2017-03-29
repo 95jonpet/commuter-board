@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { AppService } from './app.service';
+import { SLHttpService } from './http.service';
 import { Departure } from './classes/departure';
+import { Card } from './classes/card';
+import { Station } from './classes/station';
+import { Location } from './classes/locations';
 
 
 @Component({
@@ -11,7 +16,7 @@ import { Departure } from './classes/departure';
 
                 <div class="pure-g">
                     <div class="pure-u-6-24">
-                        <input class="station-input" type="text" name="Station" placeholder="Station name">
+                        <input [(ngModel)]="stationName" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
                     </div>
                     <div class="pure-u-18-24">
 
@@ -29,7 +34,7 @@ import { Departure } from './classes/departure';
                     </div>
 
                 </div>
-                <a class="pure-button" href="#">Add new card</a>
+                <a (click)="onAddCard()" class="pure-button" href="#">Add new card</a>
             </fieldset>
         </form>
     `,
@@ -64,7 +69,7 @@ import { Departure } from './classes/departure';
 		.checkbox-custom + .checkbox-custom-label:before {
 		    content: '';
 		    background: #fff;
-		    border: 2px solid #ddd; 
+		    border: 2px solid #ddd;
 		    display: inline-block;
 		    vertical-align: middle;
 		    width: 20px;
@@ -84,5 +89,31 @@ import { Departure } from './classes/departure';
     `]
 })
 export class AddStationCardComponent {
+    @Output() onClose = new EventEmitter<void>();
+    private stationName: string = '';
 
+    constructor(private app : AppService, private http: SLHttpService) {}
+
+    onAddCard() {
+        var component = this;
+        if (this.stationName == '') {
+            return;
+        }
+
+        this.http.getLocations(new Location(this.stationName))
+            .then(data => {
+                if (data.length < 1) {
+                    // TODO: No show result found alert
+                    return;
+                }
+
+                data.slice(0, 1).forEach((location: any) => {
+                    component.app.addCard(new Card('station', new Station(Number(location.SiteId), location.Name), null, this.http));
+                    component.onClose.emit();
+                });
+
+                // Reset inputs
+                component.stationName = '';
+            });
+    }
 }
