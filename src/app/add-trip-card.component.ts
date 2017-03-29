@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { AppService } from './app.service';
+import { SLHttpService } from './http.service';
 import { Departure } from './classes/departure';
-
+import { Card } from './classes/card';
+import { Station } from './classes/station';
+import { Location } from './classes/locations';
 
 @Component({
     selector: 'add-trip-card',
@@ -11,11 +15,11 @@ import { Departure } from './classes/departure';
 
                 <div class="pure-g">
                     <div class="pure-u-5-24">
-                        <input class="start-input" type="text" name="start" placeholder="Start">
+                        <input [(ngModel)]="fromName" class="start-input" type="text" name="start" placeholder="Start">
                     </div>
                     <div class="pure-u-1-24"></div>
                     <div class="pure-u-5-24">
-                        <input class="destination-input" type="text" name="destination" placeholder="Destination">
+                        <input [(ngModel)]="toName" class="destination-input" type="text" name="destination" placeholder="Destination">
                     </div>
                     <div class="pure-u-13-24">
 
@@ -33,7 +37,7 @@ import { Departure } from './classes/departure';
                     </div>
 
                 </div>
-                <a class="pure-button" href="#">Add new card</a>
+                <a (click)="onAddCard()" class="pure-button" href="#">Add new card</a>
             </fieldset>
         </form>
     `,
@@ -91,5 +95,44 @@ import { Departure } from './classes/departure';
     `]
 })
 export class AddTripCardComponent {
+    @Output() onClose = new EventEmitter<void>();
+    private fromName: string = '';
+    private toName: string = '';
 
+    constructor(private app : AppService, private http: SLHttpService) {}
+
+    onAddCard() {
+        var component = this;
+        if (this.fromName == '' || this.toName == '') {
+            return;
+        }
+
+        this.http.getLocations(new Location(this.fromName))
+            .then(fromData => {
+                if (fromData.length < 1) {
+                    // TODO: No show result found alert
+                    return;
+                }
+
+                this.http.getLocations(new Location(this.toName))
+                    .then(toData => {
+                        if (toData.length < 1) {
+                            // TODO: No show result found alert
+                            return;
+                        }
+
+                        component.app.addCard(new Card(
+                            'trip',
+                            new Station(Number(fromData[0].SiteId), fromData[0].Name),
+                            new Station(Number(toData[0].SiteId), toData[0].Name),
+                            this.http
+                        ));
+                        component.onClose.emit();
+
+                        // Reset inputs
+                        component.fromName = '';
+                        component.toName = '';
+                    });
+            });
+    }
 }

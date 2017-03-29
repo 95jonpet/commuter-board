@@ -25,7 +25,7 @@ import { Departure } from './classes/departure';
                         </div>
 
                 		<add-station-card (onClose)="onClose()" *ngIf="type == 'station'"></add-station-card>
-                        <add-trip-card *ngIf="type == 'trip'"></add-trip-card>
+                        <add-trip-card (onClose)="onClose()" *ngIf="type == 'trip'"></add-trip-card>
                 	</div>
                 </div>
             </div>
