@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { AppService } from './app.service';
 import { AppComponent }  from './app.component';
 import { TopComponent }  from './top.component';
-import { CompactDeparturesComponent }  from './compact-departures.component';
+import { NextTripsComponent }  from './next-trips.component';
 import { NextDeparturesComponent }  from './next-departures.component';
 import { AddCardComponent }  from './add-card.component';
 import { AddStationCardComponent }  from './add-station-card.component';
@@ -18,7 +18,7 @@ import { SLHttpService } from './http.service';
   declarations: [
     AppComponent,
     TopComponent,
-    CompactDeparturesComponent,
+    NextTripsComponent,
     NextDeparturesComponent,
     AddCardComponent,
     AddStationCardComponent,

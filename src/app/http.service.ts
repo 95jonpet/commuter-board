@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, URLSearchParams} from '@angular/http';
 import { Deviations } from './classes/deviations';
 import { RealtimeInfo } from './classes/realtimeInfo';
+import { PlanData } from './classes/planData';
 import { LineData } from './classes/linedata';
 import { Location } from './classes/locations';
 import { Situation } from './classes/situation';
@@ -36,7 +37,12 @@ export class SLHttpService {
          * property "_body", calm down. It doesn't know that a response won't have that property
          * which is why it complains. We, however, do know that it will.
          */
-        var data = JSON.parse(res['_body']).ResponseData;
+        var data = JSON.parse(res['_body']);
+
+        if (data.ResponseData) {
+            data = data.ResponseData;
+        }
+
         return data;
     }
 
@@ -65,6 +71,27 @@ export class SLHttpService {
         }
         data.setKey(this.apiKeys.real_time);
         let url: string = this.urls.real_time;
+
+        return this.sendGet(url, data.getRequestOptions()).then(response => {
+            return new Promise((resolve, reject) => {
+                resolve(this.handleResponse(response));
+            });
+        }).catch(error => {
+            return new Promise((resolve, reject) => {
+                console.log(error);
+                reject(error);
+            });
+        });
+    }
+
+    getTrip(data: PlanData): Promise<any> {
+        // Enforce PlanData object because the request requires certain properties.
+        if (!data) {
+            console.error("Function 'getTrip' requires a PlanData object\nRequired properties: ['originId', 'destId']");
+            return;
+        }
+        data.setKey(this.apiKeys.travel_planner);
+        let url: string = this.urls.travel_planner;
 
         return this.sendGet(url, data.getRequestOptions()).then(response => {
             return new Promise((resolve, reject) => {

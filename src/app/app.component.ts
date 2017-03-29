@@ -22,7 +22,7 @@ import { Situation } from './classes/situation';
                         </div>
                         <div class="panel--contents">
                             <next-departures [departures]="card.departures" *ngIf="card.type == 'station'"></next-departures>
-                            <compact-departures [departures]="card.departures" *ngIf="card.type == 'trip'"></compact-departures>
+                            <next-trips [trips]="card.trips" *ngIf="card.type == 'trip'"></next-trips>
                         </div>
                     </div>
                 </div>

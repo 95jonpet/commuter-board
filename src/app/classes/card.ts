@@ -2,14 +2,16 @@ import { Departure } from './departure';
 import { Station } from './station';
 import { SLHttpService } from '../http.service';
 import { RealtimeInfo } from './realtimeInfo';
+import { PlanData } from './planData';
 
 export class Card {
     type: String;
     from: Station;
     to?: Station;
-    departures?: Departure[];
+    departures?: Departure[] = [];
+    trips?: Departure[][] = [];
 
-    constructor(type: String, from: Station, to: Station, departures: Departure[], private http: SLHttpService) {
+    constructor(type: String, from: Station, to: Station, private http: SLHttpService) {
         if (type != 'trip' && type != 'station') {
             throw new Error('Illegal card type: '+type);
         }
@@ -17,7 +19,6 @@ export class Card {
         this.type = type;
         this.from = from;
         this.to = to;
-        this.departures = departures;
 
         this.fetchDepartures();
     }
@@ -26,8 +27,48 @@ export class Card {
         this.departures.push(departure);
     }
 
-    private fetchTripDepartures(): void {
+    private addTrip(departures: Departure[]): void {
+        this.trips.push(departures);
+    }
 
+    private fetchTripDepartures(): void {
+        var card = this;
+        this.http.getTrip(new PlanData(this.from.id, this.to.id))
+            .then(function (response) {
+                console.log(response);
+                response.TripList.Trip.forEach(function (trip: any) {
+                    var departures: Departure[] = [];
+                    trip.LegList.Leg.filter(function (leg: any) {
+                            return leg.type.toLowerCase() != 'walk';
+                        })
+                        .forEach(function (leg: any) {
+                            console.log(leg);
+                            var type = '';
+                            switch (leg.type.toLowerCase()) {
+                                case 'metro':
+                                    type = 'subway';
+                                    break;
+                                default:
+                                    type = leg.type.toLowerCase();
+                                    break;
+                            }
+
+                            var destinationDateString = leg.Destination.rtDate && leg.Destination.rtTime
+                                ? leg.Destination.rtDate+' '+leg.Destination.rtTime
+                                : leg.Destination.date+' '+leg.Destination.time;
+
+                            departures.push(new Departure(
+                                leg.line,
+                                type,
+                                leg.Origin.name,
+                                leg.Origin.rtTime || leg.Origin.time,
+                                leg.Destination.name,
+                                new Date(destinationDateString)
+                            ));
+                    });
+                    card.addTrip(departures);
+                });
+            });
     }
 
     private fetchStationDepartures(): void {
