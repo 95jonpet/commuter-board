@@ -43,9 +43,5 @@ export class AppService {
 
     loadCards() {
         // TODO: Load cards
-        this.setCards([
-            new Card('station', new Station(9192 ,'Slussen'), null, this.http),
-            new Card('trip', new Station(9192 ,'Slussen'), new Station(9305, 'Solna Centrum'), this.http),
-        ]);
     }
 }

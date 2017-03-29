@@ -37,7 +37,7 @@ export class Card {
             .then(function (response) {
                 response.TripList.Trip.forEach(function (trip: any) {
                     var departures: Departure[] = [];
-                    trip.LegList.Leg.filter(function (leg: any) {
+                    [].concat(trip.LegList.Leg).filter(function (leg: any) {
                             return leg.type.toLowerCase() != 'walk';
                         })
                         .forEach(function (leg: any) {

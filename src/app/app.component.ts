@@ -31,6 +31,7 @@ import { Situation } from './classes/situation';
                 </div>
             </div>
         </div>
+        <div class="empty-hint" *ngIf="cards.length == 0">Click <i class="fa fa-plus"></i> to add a card</div>
         <add-card [(editing)]="addingCard" *ngIf="addingCard"></add-card>
     `,
     styles: [`
@@ -49,26 +50,24 @@ import { Situation } from './classes/situation';
             cursor: -webkit-grabbing !important;
             cursor: -moz-grabbing !important;
         }
-        .panel {
-            margin: 20px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
-        }
-        .panel--header {
-            padding: 10px 20px;
-            background-color: #007991;
-            color: #fff;
-        }
-        .panel--contents {
-            padding: 10px;
-            background-color: #fff; /*#93B7BE;*/
-            line-height: 2em;
-        }
         .delete-button {
             float: right;
             cursor: pointer !important;
             margin-top: -5px;
             margin-right: -15px;
             font-size: 85%;
+        }
+        .empty-hint {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            transform: translateY(-50%);
+            font-family: 'Arimo', sans-serif;
+            font-size: 3em;
+            color: #aaa;
+            text-shadow: 0 4px 3px rgba(150, 150, 150, 0.15);
         }
     `]
 })
