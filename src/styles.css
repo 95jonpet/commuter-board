@@ -15,21 +15,6 @@ h1, h2, h3, h4 {
     padding: 40px 20px;
 }
 
-.panel {
-    margin: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
-}
-.panel--header {
-    padding: 10px 20px;
-    background-color: #007991;
-    color: #fff;
-}
-.panel--contents {
-    padding: 10px;
-    background-color: #fff; /*#93B7BE;*/
-    line-height: 2em;
-}
-
 .app-loading-spinner {
     width: 100%;
     margin-top: calc(50vh - 5vmin);
@@ -38,6 +23,31 @@ h1, h2, h3, h4 {
 }
 .app-loading-spinner .fa {
     font-size: 10vmin;
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+    background: rgb(28, 184, 65);
+}
+
+.button-error {
+    background: rgb(202, 60, 60);
+}
+
+.button-warning {
+    background: rgb(223, 117, 20);
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221);
 }
 
 /*

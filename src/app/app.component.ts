@@ -19,6 +19,9 @@ import { Situation } from './classes/situation';
                     <div class="panel">
                         <div class="panel--header">
                             <i class="fa fa-fw fa-info-circle"></i> {{ card.from.name }}{{ card.type == 'trip' ? ' - '+card.to.name : '' }}
+                            <button class="delete-button pure-button button-error" *ngIf="editMode" (click)="onDeleteCard(card)">
+                                <i class="fa fa-fw fa-trash-o"></i>
+                            </button>
                         </div>
                         <div class="panel--contents">
                             <next-departures [departures]="card.departures" *ngIf="card.type == 'station'"></next-departures>
@@ -46,6 +49,27 @@ import { Situation } from './classes/situation';
             cursor: -webkit-grabbing !important;
             cursor: -moz-grabbing !important;
         }
+        .panel {
+            margin: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
+        }
+        .panel--header {
+            padding: 10px 20px;
+            background-color: #007991;
+            color: #fff;
+        }
+        .panel--contents {
+            padding: 10px;
+            background-color: #fff; /*#93B7BE;*/
+            line-height: 2em;
+        }
+        .delete-button {
+            float: right;
+            cursor: pointer !important;
+            margin-top: -5px;
+            margin-right: -15px;
+            font-size: 85%;
+        }
     `]
 })
 export class AppComponent  {
@@ -68,8 +92,8 @@ export class AppComponent  {
         this.addingCard = true;
     }
 
-    onStopCreatingCard() {
-        this.addingCard = false;
+    onDeleteCard(card: Card) {
+        this.app.deleteCard(card);
     }
 
     onToggleEditMode() {

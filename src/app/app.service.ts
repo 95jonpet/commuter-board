@@ -27,6 +27,16 @@ export class AppService {
         this.cards.push(card);
     }
 
+    deleteCard(card: Card) {
+        var index = this.cards.indexOf(card);
+        if (index > -1) {
+            this.cards.splice(index, 1);
+        } else {
+            // Tried to delete non-existing card
+            console.error('Tried to delete non existing card: '+card);
+        }
+    }
+
     saveCards() {
         // TODO: Save cards
     }
