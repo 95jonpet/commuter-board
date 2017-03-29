@@ -12,7 +12,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
                     <div class="pure-u-1 pure-u-md-1-2">
                         <div class="toolbar">
                             <button (click)="onCreateCard()"><i class="fa fa-plus"></i></button>
-                            <button (click)="onEnterEditMode()"><i class="fa fa-pencil"></i></button>
+                            <button (click)="onEnterEditMode()" [ngClass]="{'active': editing}"><i class="fa fa-pencil"></i></button>
                         </div>
                     </div>
                 </div>
@@ -36,17 +36,20 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         }
 
         .toolbar {
-            font-size: 22px;    
-            color: #999;
+            font-size: 22px;
             text-align: right;
         }
         .toolbar button {
+            color: #999;
             background: none;
             border: none;
             outline: none;
         }
         .toolbar button:hover, .toolbar button:focus {
             color: #ccc;
+        }
+        .toolbar button.active {
+            color: #fff;
         }
         .toolbar .fa {
             cursor: pointer;
@@ -57,7 +60,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     `]
 })
 export class TopComponent {
-    @Input() title: String;
+    @Input() title: string;
+    @Input() editing: boolean;
 
     @Output() createCard: EventEmitter<any> = new EventEmitter();
     @Output() editCards: EventEmitter<any> = new EventEmitter();

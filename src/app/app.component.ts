@@ -12,10 +12,10 @@ import { Situation } from './classes/situation';
 @Component({
     selector: 'app',
     template: `
-        <top [title]="name" (createCard)="onCreateCard()" (editCards)="onEditMode()"></top>
+        <top [title]="name" (createCard)="onCreateCard()" (editCards)="onToggleEditMode()" [editing]="editMode"></top>
         <div class="wrapper">
-            <div class="pure-g">
-                <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" *ngFor="let card of cards">
+            <div class="pure-g" dnd-sortable-container [sortableData]="cards">
+                <div class="card pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" *ngFor="let card of cards; let i = index" [ngClass]="{'draggable': editMode}" dnd-sortable [dragEnabled]="editMode" [sortableIndex]="i" (onDropSuccess)="onSaveCardPositions()">
                     <div class="panel">
                         <div class="panel--header">
                             <i class="fa fa-fw fa-info-circle"></i> {{ card.from.name }}{{ card.type == 'trip' ? ' - '+card.to.name : '' }}
@@ -31,7 +31,21 @@ import { Situation } from './classes/situation';
         <add-card [(editing)]="addingCard" *ngIf="addingCard"></add-card>
     `,
     styles: [`
-
+        .card {
+            cursor: default !important;
+        }
+        .card.draggable {
+            cursor: move !important;
+            cursor: grab !important;
+            cursor: -webkit-grab !important;
+            cursor: -moz-grab !important;
+        }
+        .card.draggable:active {
+            cursor: move !important;
+            cursor: grabbing !important;
+            cursor: -webkit-grabbing !important;
+            cursor: -moz-grabbing !important;
+        }
     `]
 })
 export class AppComponent  {
@@ -58,8 +72,11 @@ export class AppComponent  {
         this.addingCard = false;
     }
 
-    onEditMode() {
-        alert("Feature not yet implemented");
-        this.editMode = true;
+    onToggleEditMode() {
+        this.editMode = !this.editMode;
+    }
+
+    onSaveCardPositions() {
+        this.app.saveCards();
     }
 }

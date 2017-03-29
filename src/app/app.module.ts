@@ -1,7 +1,8 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpModule }    from '@angular/http';
 import { FormsModule }   from '@angular/forms';
+import { DndModule }     from 'ng2-dnd';
 
 import { AppService } from './app.service';
 import { AppComponent }  from './app.component';
@@ -15,7 +16,12 @@ import { AddTripCardComponent }  from './add-trip-card.component';
 import { SLHttpService } from './http.service';
 
 @NgModule({
-  imports:      [ BrowserModule, HttpModule, FormsModule ],
+  imports: [
+    BrowserModule,
+    HttpModule,
+    FormsModule,
+    DndModule.forRoot(),
+  ],
   declarations: [
     AppComponent,
     TopComponent,
@@ -26,8 +32,8 @@ import { SLHttpService } from './http.service';
     AddTripCardComponent,
   ],
   providers:[
-      AppService,
-      SLHttpService,
+    AppService,
+    SLHttpService,
   ],
   bootstrap:    [ AppComponent ]
 })

@@ -9,12 +9,11 @@ import { Departure } from './classes/departure';
 
 @Injectable()
 export class AppService {
-    private cards: Card[] = [
-        new Card('station', new Station(9192 ,'Slussen'), null, this.http),
-        new Card('trip', new Station(9192 ,'Slussen'), new Station(9305, 'Solna Centrum'), this.http),
-    ];
+    private cards: Card[] = [];
 
-    constructor(private http : SLHttpService) {}
+    constructor(private http : SLHttpService) {
+        this.loadCards();
+    }
 
     getCards(): Card[] {
         return this.cards;
@@ -26,5 +25,17 @@ export class AppService {
 
     addCard(card: Card) {
         this.cards.push(card);
+    }
+
+    saveCards() {
+        // TODO: Save cards
+    }
+
+    loadCards() {
+        // TODO: Load cards
+        this.setCards([
+            new Card('station', new Station(9192 ,'Slussen'), null, this.http),
+            new Card('trip', new Station(9192 ,'Slussen'), new Station(9305, 'Solna Centrum'), this.http),
+        ]);
     }
 }
