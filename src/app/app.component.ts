@@ -6,7 +6,7 @@ import { SLHttpService } from './http.service';
 import { Deviations } from './classes/deviations';
 import { Location } from './classes/locations';
 import { RealtimeInfo } from './classes/realtimeInfo';
-import { LineData } from './classes/lineData';
+import { LineData } from './classes/linedata';
 import { Situation } from './classes/situation';
 
 @Component({
