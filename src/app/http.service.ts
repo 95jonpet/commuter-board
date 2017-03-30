@@ -161,6 +161,14 @@ export class SLHttpService {
     }
 
     sendGet(url: string, options: RequestOptions): Promise<Response> {
-        return this.http.get(url, options).toPromise();
+        return this.http.get(this.bypassCORSUrl(url), options).toPromise();
+    }
+
+    private bypassCORSUrl(url: string): string {
+        if (!url.startsWith('https://crossorigin.me/')) {
+            url = 'https://crossorigin.me/'+url;
+        }
+
+        return url;
     }
 }
