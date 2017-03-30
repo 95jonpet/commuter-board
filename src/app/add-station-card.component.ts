@@ -5,7 +5,7 @@ import { Departure } from './classes/departure';
 import { Card } from './classes/card';
 import { Station } from './classes/station';
 import { Location } from './classes/locations';
-import { CookieService } from 'angular2-cookie/core'
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 
 @Component({
@@ -98,7 +98,7 @@ export class AddStationCardComponent {
     }
 
     loadCookies(){
-        if(this.cookies.get("add_station_input") != undefined){ 
+        if(this.cookies.get("add_station_input") != undefined){
             this.stationName = this.cookies.get("add_station_input");
         }
     }

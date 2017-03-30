@@ -118,7 +118,7 @@ export class AddTripCardComponent {
     saveStartName(newStartName: string){
         this.cookies.put("add_trip_start_input", newStartName);
     }
-    
+
     //TODO Expiration
     saveDestName(newDestName: string){
         this.cookies.put("add_trip_dest_input", newDestName);

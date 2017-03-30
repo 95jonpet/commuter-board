@@ -26,7 +26,9 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      'ng2-dnd': 'node_modules/ng2-dnd/bundles/index.umd.js'
+      'ng2-dnd': 'node_modules/ng2-dnd/bundles/index.umd.js',
+      'angular2-cookie': 'node_modules/angular2-cookie',
+      'angular2-cookie/services/cookies.service': 'node_modules/angular2-cookie/services/cookies.service'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -34,6 +36,10 @@
         defaultExtension: 'js'
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      'angular2-cookie': {
+        main: './core.js',
         defaultExtension: 'js'
       }
     },
