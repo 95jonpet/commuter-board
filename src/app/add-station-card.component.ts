@@ -17,7 +17,13 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
                 <div class="pure-g">
                     <div class="pure-u-6-24">
-                        <input [(ngModel)]="stationName" (ngModelChange)="saveStationName($event)" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
+                        <input [(ngModel)]="stationName" (keyup)="onInputChange(stationName)" (ngModelChange)="saveStationName($event)" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
+                    </div>
+                    <div style="position: absolute;max-height: 400px;min-width:200px;overflow-y:scroll;background-color:white;">
+                        <div *ngFor="let station of stations">
+                           {{ station.name }}
+                           <hr>
+                        </div>
                     </div>
                     <div class="pure-u-18-24">
 
@@ -92,6 +98,9 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 export class AddStationCardComponent {
     @Output() onClose = new EventEmitter<void>();
     private stationName: string = '';
+    private stations: Station[] = [];
+    private timer: any = undefined;
+    private showStations: boolean = true;
 
     constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService) {
         this.loadCookies();
@@ -110,6 +119,22 @@ export class AddStationCardComponent {
 
     removeCookies(){
         this.cookies.remove("add_station_input");
+    }
+
+    onInputChange(str: string) {
+        if (str.length < 3) return;
+        window.clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            this.stations = [];
+            this.showStations = true;
+            this.http.getLocations(new Location(str)).then(res => {
+                console.log(res);
+                res.forEach((s: any) => {
+                    this.stations.push(new Station(s.SiteId, s.Name));
+                })
+            });
+        }, 1000);
+        console.log("Bottom", this.stations);
     }
 
     onAddCard() {
