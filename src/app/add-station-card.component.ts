@@ -16,7 +16,13 @@ import { Location } from './classes/locations';
 
                 <div class="pure-g">
                     <div class="pure-u-6-24">
-                        <input [(ngModel)]="stationName" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
+                        <input [(ngModel)]="stationName" (keyup)="onInputChange(stationName)" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
+                    </div>
+                    <div style="position: absolute;max-height: 400px;min-width:200px;overflow-y:scroll;background-color:white;">
+                        <div *ngFor="let station of stations">
+                           {{ station.name }}
+                           <hr>
+                        </div>
                     </div>
                     <div class="pure-u-18-24">
 
@@ -93,6 +99,28 @@ export class AddStationCardComponent {
     private stationName: string = '';
 
     constructor(private app : AppService, private http: SLHttpService) {}
+    
+    private stations: [Station] = [];
+    
+    private timer: any = undefined;
+    
+    private showStations: boolean = true;
+    
+    onInputChange(str) {
+        if (str.length < 3) return;
+        window.clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            this.stations = [];
+            this.showStations = true;
+            this.http.getLocations(new Location(str)).then(res => {
+                console.log(res);
+                res.forEach(s => {
+                    this.stations.push(new Station(s.SiteId, s.Name));
+                })
+            });
+        }, 1000);
+        console.log("Bottom", this.stations);
+    }
 
     onAddCard() {
         var component = this;
