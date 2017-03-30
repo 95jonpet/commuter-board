@@ -21,16 +21,16 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
                     </div>
                     <div class="pure-u-18-24">
 
-                        <input id="boat" class="checkbox-custom" type="checkbox">
+                        <input [checked]="transportOption.boat" (change)="transportOption.boat = !transportOption.boat" id="boat" class="checkbox-custom" type="checkbox">
                         <label for="boat" class="checkbox-custom-label"><i class="fa fa-ship"></i> Boat</label>
 
-                        <input id="train" class="checkbox-custom" type="checkbox" checked>
+                        <input [checked]="transportOption.train" (change)="transportOption.train = !transportOption.train" id="train" class="checkbox-custom" type="checkbox">
                         <label for="train" class="checkbox-custom-label"><i class="fa fa-train"></i> Train</label>
 
-                        <input id="subway" class="checkbox-custom" type="checkbox" checked>
+                        <input [checked]="transportOption.subway" (change)="transportOption.subway = !transportOption.subway" id="subway" class="checkbox-custom" type="checkbox">
                         <label for="subway" class="checkbox-custom-label"><i class="fa fa-subway"></i> Subway</label>
 
-                        <input id="bus" class="checkbox-custom" type="checkbox" checked>
+                        <input [checked]="transportOption.bus" (change)="transportOption.bus = !transportOption.bus" id="bus" class="checkbox-custom" type="checkbox">
                         <label for="bus" class="checkbox-custom-label"><i class="fa fa-bus"></i> Bus</label>
                     </div>
                     <div class="pure-u-18-24 suggestion-box">
@@ -41,7 +41,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
                     </div>
 
                 </div>
-                <a (click)="onAddCard()" class="pure-button" href="#">Add new card</a>
+                <a [class.button-disabled]="!selectedStation" (click)="onAddCard()" class="pure-button" href="#">Add new card</a>
             </fieldset>
         </form>
     `,
@@ -100,17 +100,34 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
         .suggestion {
             cursor:pointer;
         }
+
+        .button-disabled {
+            cursor: not-allowed;
+        }
     `]
 })
 export class AddStationCardComponent {
     @Output() onClose = new EventEmitter<void>();
+    private readonly SEARCH_LENGTH_THRESHOLD: number = 3;
     private stationName: string = '';
     private stations: Array<Station> = [];
     private timer: any = undefined;
-    private showStations: boolean = true;
+    private selectedStation: Station = null;
+
+    private transportOption: Object = {
+        bus: true,
+        boat: true,
+        train: true,
+        subway: true
+    }
 
     constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService) {
         this.loadCookies();
+    }
+
+    ngOnInit() {
+        this.fetchStationData(this.stationName);
+        this.selectedStation = null;
     }
 
     loadCookies(){
@@ -128,47 +145,48 @@ export class AddStationCardComponent {
         this.cookies.remove("add_station_input");
     }
     onInputChange(str: string) {
-        if (str.length < 3) return;
+        if (str.length < this.SEARCH_LENGTH_THRESHOLD) return;
         window.clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-            this.stations = [];
-            this.showStations = true;
-            this.http.getLocations(new Location(str, 10)).then(res => {
-                console.log(res);
-                res.forEach((s: any) => {
-                    this.stations.push(new Station(s.SiteId, s.Name));
-                });
+        this.timer = setTimeout(() => { this.fetchStationData(str) }, 300);
+    }
+
+    fetchStationData(str: string) {
+        this.stations = [];
+        let location: Location = new Location(str);
+        this.http.getLocations(new Location(str)).then(res => {
+            if (!res) return;
+            res.forEach((s: any) => {
+                this.stations.push(new Station(s.SiteId, s.Name));
             });
-        }, 1000);
-        console.log("Bottom", this.stations);
+        });
     }
 
     selectSuggestion(station: Station) {
-        console.log("You chose: ", station);
+        this.stationName = station.name;
+        this.selectedStation = station;
+        this.stations = [];
     }
 
     onAddCard() {
         this.removeCookies();
 
         var component = this;
-        if (this.stationName == '') {
+        if (!this.selectedStation) {
             return;
         }
 
-        this.http.getLocations(new Location(this.stationName))
-            .then(data => {
-                if (data.length < 1) {
-                    // TODO: No show result found alert
-                    return;
-                }
+        let station: Station = this.selectedStation;
+        let card: Card = new Card('station', new Station(station.id, station.name), null, this.http);
+        card.subway = this.subwayChecked;
+        card.bus = this.busChecked;
+        card.boat = this.boatChecked;
+        card.train = this.trainChecked;
 
-                data.slice(0, 1).forEach((location: any) => {
-                    component.app.addCard(new Card('station', new Station(Number(location.SiteId), location.Name), null, this.http));
-                    component.onClose.emit();
-                });
 
-                // Reset inputs
-                component.stationName = '';
-            });
+        component.app.addCard(card);
+        component.onClose.emit();
+        component.stationName = '';
+        component.selectedStation = null;
+        component.stations = [];
     }
 }

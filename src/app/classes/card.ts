@@ -11,6 +11,11 @@ export class Card {
     departures?: Departure[] = [];
     trips?: Departure[][] = [];
 
+    bus?: boolean;
+    boat?: boolean;
+    train?: boolean;
+    subway?: boolean;
+
     constructor(type: String, from: Station, to: Station, private http: SLHttpService) {
         if (type != 'trip' && type != 'station') {
             throw new Error('Illegal card type: '+type);
@@ -69,9 +74,19 @@ export class Card {
             });
     }
 
+    private addTransportationConstrains(realtime: RealtimeInfo) {
+
+    }
+
     private fetchStationDepartures(): void {
         var card = this;
-        this.http.getRealtime(new RealtimeInfo(this.from.id, 30))
+        let realtime: RealtimeInfo = new RealtimeInfo(this.from.id, 30);
+        if (this.bus) realtime.Bus = this.bus;
+        if (this.boat) realtime.Ship = this.boat;
+        if (this.train) realtime.Tram = this.train;
+        if (this.subway) realtime.Train = this.subway;
+
+        this.http.getRealtime(realtime)
             .then(function (data) {
                 [].concat(data.Buses || [], data.Metros || [], data.Trains || [], data.Trams || [], data.Ships || []) // Collect data
                 .sort(function (a, b) { // Sort based on departure time / line number
