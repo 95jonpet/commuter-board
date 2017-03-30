@@ -5,6 +5,7 @@ import { Departure } from './classes/departure';
 import { Card } from './classes/card';
 import { Station } from './classes/station';
 import { Location } from './classes/locations';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Component({
     selector: 'add-trip-card',
@@ -15,11 +16,11 @@ import { Location } from './classes/locations';
 
                 <div class="pure-g">
                     <div class="pure-u-5-24">
-                        <input [(ngModel)]="fromName" class="start-input" type="text" name="start" placeholder="Start">
+                        <input [(ngModel)]="fromName" (ngModelChange)='saveStartName($event)' class="start-input" type="text" name="start" placeholder="Start">
                     </div>
                     <div class="pure-u-1-24"></div>
                     <div class="pure-u-5-24">
-                        <input [(ngModel)]="toName" class="destination-input" type="text" name="destination" placeholder="Destination">
+                        <input [(ngModel)]="toName" (ngModelChange)='saveDestName($event)' class="destination-input" type="text" name="destination" placeholder="Destination">
                     </div>
                     <div class="pure-u-13-24">
 
@@ -99,9 +100,38 @@ export class AddTripCardComponent {
     private fromName: string = '';
     private toName: string = '';
 
-    constructor(private app : AppService, private http: SLHttpService) {}
+    constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService) {
+        this.loadCookies();
+    }
+
+    loadCookies(){
+        if(this.cookies.get("add_trip_start_input") != undefined){
+            this.fromName = this.cookies.get("add_trip_start_input");
+        }
+
+        if(this.cookies.get("add_trip_dest_input") != undefined){
+            this.toName = this.cookies.get("add_trip_dest_input");
+        }
+    }
+
+    //TODO Expiration
+    saveStartName(newStartName: string){
+        this.cookies.put("add_trip_start_input", newStartName);
+    }
+    
+    //TODO Expiration
+    saveDestName(newDestName: string){
+        this.cookies.put("add_trip_dest_input", newDestName);
+    }
+
+    removeCookies(){
+        this.cookies.remove("add_trip_start_input");
+        this.cookies.remove("add_trip_dest_input")
+    }
 
     onAddCard() {
+        this.removeCookies();
+
         var component = this;
         if (this.fromName == '' || this.toName == '') {
             return;
