@@ -37,6 +37,7 @@ export class SLHttpService {
          * property "_body", calm down. It doesn't know that a response won't have that property
          * which is why it complains. We, however, do know that it will.
          */
+        console.log(res);
         var data = JSON.parse(res['_body']);
 
         if (data.ResponseData) {
@@ -160,15 +161,13 @@ export class SLHttpService {
         });
     }
 
+    /**
+     * Send GET request using a glorious php solution (6 lines of code) to forward responses.
+     *
+     * @param url The url to get a response from.
+     * @param options Request options to send.
+     */
     sendGet(url: string, options: RequestOptions): Promise<Response> {
-        return this.http.get(this.bypassCORSUrl(url), options).toPromise();
-    }
-
-    private bypassCORSUrl(url: string): string {
-        if (!url.startsWith('https://crossorigin.me/')) {
-            url = 'https://crossorigin.me/'+url;
-        }
-
-        return url;
+        return this.http.get('https://peterjonsson.se/cors-relay/?_url='+url, options).toPromise();
     }
 }
