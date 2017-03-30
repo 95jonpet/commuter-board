@@ -5,6 +5,7 @@ import { Departure } from './classes/departure';
 import { Card } from './classes/card';
 import { Station } from './classes/station';
 import { Location } from './classes/locations';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { Location } from './classes/locations';
 
                 <div class="pure-g">
                     <div class="pure-u-6-24">
-                        <input [(ngModel)]="stationName" (keyup)="onInputChange(stationName)" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
+                        <input [(ngModel)]="stationName" (keyup)="onInputChange(stationName)" (ngModelChange)="saveStationName($event)" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
                     </div>
                     <div class="pure-u-18-24">
 
@@ -104,15 +105,28 @@ import { Location } from './classes/locations';
 export class AddStationCardComponent {
     @Output() onClose = new EventEmitter<void>();
     private stationName: string = '';
-
-    constructor(private app : AppService, private http: SLHttpService) {}
-    
     private stations: Array<Station> = [];
-    
     private timer: any = undefined;
-    
     private showStations: boolean = true;
-    
+
+    constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService) {
+        this.loadCookies();
+    }
+
+    loadCookies(){
+        if(this.cookies.get("add_station_input") != undefined){
+            this.stationName = this.cookies.get("add_station_input");
+        }
+    }
+
+    saveStationName(newStationName: string){
+        //TODO Expiration (see CookieOptionsArgs)
+        this.cookies.put("add_station_input", newStationName);
+    }
+
+    removeCookies(){
+        this.cookies.remove("add_station_input");
+    }
     onInputChange(str: string) {
         if (str.length < 3) return;
         window.clearTimeout(this.timer);
@@ -134,6 +148,8 @@ export class AddStationCardComponent {
     }
 
     onAddCard() {
+        this.removeCookies();
+
         var component = this;
         if (this.stationName == '') {
             return;
