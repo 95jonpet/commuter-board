@@ -114,7 +114,7 @@ export class AddStationCardComponent {
     private timer: any = undefined;
     private selectedStation: Station = null;
 
-    private transportOption: Object = {
+    private transportOption: any = {
         bus: true,
         boat: true,
         train: true,
@@ -151,10 +151,11 @@ export class AddStationCardComponent {
     }
 
     fetchStationData(str: string) {
+        if (str === '') return;
         this.stations = [];
         let location: Location = new Location(str);
-        this.http.getLocations(new Location(str)).then(res => {
-            if (!res) return;
+        this.http.getLocations(new Location(str)).then((res: Array<any>) => {
+            if (!res || res === []) return;
             res.forEach((s: any) => {
                 this.stations.push(new Station(s.SiteId, s.Name));
             });
@@ -177,11 +178,10 @@ export class AddStationCardComponent {
 
         let station: Station = this.selectedStation;
         let card: Card = new Card('station', new Station(station.id, station.name), null, this.http);
-        card.subway = this.subwayChecked;
-        card.bus = this.busChecked;
-        card.boat = this.boatChecked;
-        card.train = this.trainChecked;
-
+        card.bus = this.transportOption.bus;
+        card.boat = this.transportOption.boat;
+        card.train = this.transportOption.train;
+        card.subway = this.transportOption.subway;
 
         component.app.addCard(card);
         component.onClose.emit();

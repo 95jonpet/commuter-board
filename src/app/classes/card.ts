@@ -73,11 +73,7 @@ export class Card {
                 });
             });
     }
-
-    private addTransportationConstrains(realtime: RealtimeInfo) {
-
-    }
-
+    
     private fetchStationDepartures(): void {
         var card = this;
         let realtime: RealtimeInfo = new RealtimeInfo(this.from.id, 30);
@@ -85,6 +81,7 @@ export class Card {
         if (this.boat) realtime.Ship = this.boat;
         if (this.train) realtime.Tram = this.train;
         if (this.subway) realtime.Train = this.subway;
+        console.log(realtime);
 
         this.http.getRealtime(realtime)
             .then(function (data) {
