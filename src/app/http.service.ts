@@ -37,7 +37,6 @@ export class SLHttpService {
          * property "_body", calm down. It doesn't know that a response won't have that property
          * which is why it complains. We, however, do know that it will.
          */
-        console.log(res);
         var data = JSON.parse(res['_body']);
 
         if (data.ResponseData) {
