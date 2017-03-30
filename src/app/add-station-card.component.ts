@@ -18,12 +18,6 @@ import { Location } from './classes/locations';
                     <div class="pure-u-6-24">
                         <input [(ngModel)]="stationName" (keyup)="onInputChange(stationName)" id="station-name" class="station-input" type="text" name="Station" placeholder="Station name">
                     </div>
-                    <div style="position: absolute;max-height: 400px;min-width:200px;overflow-y:scroll;background-color:white;">
-                        <div *ngFor="let station of stations">
-                           {{ station.name }}
-                           <hr>
-                        </div>
-                    </div>
                     <div class="pure-u-18-24">
 
                         <input id="boat" class="checkbox-custom" type="checkbox">
@@ -37,6 +31,12 @@ import { Location } from './classes/locations';
 
                         <input id="bus" class="checkbox-custom" type="checkbox" checked>
                         <label for="bus" class="checkbox-custom-label"><i class="fa fa-bus"></i> Bus</label>
+                    </div>
+                    <div class="pure-u-18-24 suggestion-box">
+                        <div (click)="selectSuggestion(station)" class="suggestion" *ngFor="let station of stations">
+                           {{ station.name }}
+                           <hr>
+                        </div>
                     </div>
 
                 </div>
@@ -92,6 +92,13 @@ import { Location } from './classes/locations';
             float:right;
             margin-top: 10%;
         }
+
+        .suggestion-box {
+            margin-top: 10px;
+        }
+        .suggestion {
+            cursor:pointer;
+        }
     `]
 })
 export class AddStationCardComponent {
@@ -100,26 +107,30 @@ export class AddStationCardComponent {
 
     constructor(private app : AppService, private http: SLHttpService) {}
     
-    private stations: [Station] = [];
+    private stations: Array<Station> = [];
     
     private timer: any = undefined;
     
     private showStations: boolean = true;
     
-    onInputChange(str) {
+    onInputChange(str: string) {
         if (str.length < 3) return;
         window.clearTimeout(this.timer);
         this.timer = setTimeout(() => {
             this.stations = [];
             this.showStations = true;
-            this.http.getLocations(new Location(str)).then(res => {
+            this.http.getLocations(new Location(str, 10)).then(res => {
                 console.log(res);
-                res.forEach(s => {
+                res.forEach((s: any) => {
                     this.stations.push(new Station(s.SiteId, s.Name));
-                })
+                });
             });
         }, 1000);
         console.log("Bottom", this.stations);
+    }
+
+    selectSuggestion(station: Station) {
+        console.log("You chose: ", station);
     }
 
     onAddCard() {
