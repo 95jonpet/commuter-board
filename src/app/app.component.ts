@@ -18,7 +18,7 @@ import { Situation } from './classes/situation';
                 <div class="card pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" *ngFor="let card of cards; let i = index" [ngClass]="{'draggable': editMode}" dnd-sortable [dragEnabled]="editMode" [sortableIndex]="i" (onDropSuccess)="onSaveCardPositions()">
                     <div class="panel">
                         <div class="panel--header">
-                            <i class="fa fa-fw fa-info-circle"></i> {{ card.from.name }}{{ card.type == 'trip' ? ' - '+card.to.name : '' }}
+                            {{ card.from.name }}{{ card.type == 'trip' ? ' - '+card.to.name : '' }}
                             <button class="delete-button pure-button button-error" *ngIf="editMode" (click)="onDeleteCard(card)">
                                 <i class="fa fa-fw fa-trash-o"></i>
                             </button>
