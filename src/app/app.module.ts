@@ -16,6 +16,7 @@ import { AddTripCardComponent }  from './add-trip-card.component';
 import { SLHttpService } from './http.service';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieHandlerService } from './cookiehandler.service';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
   providers:[
     AppService,
     SLHttpService,
-    CookieService
+    CookieService,
+    CookieHandlerService,
   ],
   bootstrap:    [ AppComponent ]
 })

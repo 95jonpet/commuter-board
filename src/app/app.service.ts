@@ -6,12 +6,13 @@ import { SLHttpService } from './http.service';
 import { Station } from './classes/station';
 import { Card } from './classes/card';
 import { Departure } from './classes/departure';
+import { CookieHandlerService } from './cookiehandler.service'
 
 @Injectable()
 export class AppService {
     private cards: Card[] = [];
 
-    constructor(private http : SLHttpService) {
+    constructor(private http : SLHttpService, private cookiehandler: CookieHandlerService) {
         this.loadCards();
     }
 
@@ -25,6 +26,7 @@ export class AppService {
 
     addCard(card: Card) {
         this.cards.push(card);
+        this.saveCard(card);
     }
 
     deleteCard(card: Card) {
@@ -37,11 +39,18 @@ export class AppService {
         }
     }
 
+    saveCard(card: Card){
+        this.cookiehandler.storeCard(card);
+    }
+
+    //Obsolete? Since fredrik the buffoon structured cardsaving differently
+    // Cards are saved when created one by one and not in one batch
     saveCards() {
         // TODO: Save cards
     }
 
     loadCards() {
         // TODO: Load cards
+        this.cards = this.cookiehandler.getStoredCards();  
     }
 }

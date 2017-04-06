@@ -8,6 +8,7 @@ import { Location } from './classes/locations';
 import { RealtimeInfo } from './classes/realtimeInfo';
 import { LineData } from './classes/linedata';
 import { Situation } from './classes/situation';
+import { CookieHandlerService } from './cookiehandler.service'
 
 @Component({
     selector: 'app',
@@ -77,7 +78,7 @@ export class AppComponent  {
     editMode: boolean = false;
     cards: Card[];
 
-    constructor(private app: AppService, private http: SLHttpService) {
+    constructor(private app: AppService, private http: SLHttpService, private cookiehandler: CookieHandlerService) {
         this.cards = app.getCards();
         var d = new Situation();
         http.getSituation(d).then(response => {
@@ -85,6 +86,7 @@ export class AppComponent  {
         }).catch(error => {
             //console.error(error);
         });
+
     }
 
     onCreateCard() {
