@@ -6,6 +6,7 @@ import { Card } from './classes/card';
 import { Station } from './classes/station';
 import { Location } from './classes/locations';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CardStorageService } from './cardstorage.service';
 
 
 @Component({
@@ -121,7 +122,8 @@ export class AddStationCardComponent {
         subway: true
     }
 
-    constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService) {
+    constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService,
+                private cardstorage: CardStorageService) {
         this.loadCookies();
     }
 
@@ -177,7 +179,8 @@ export class AddStationCardComponent {
         }
 
         let station: Station = this.selectedStation;
-        let card: Card = new Card('station', new Station(station.id, station.name), null, this.http);
+        let card: Card = new Card('station', new Station(station.id, station.name), null, this.cardstorage.generateId(),
+                                  this.http);
         card.bus = this.transportOption.bus;
         card.boat = this.transportOption.boat;
         card.train = this.transportOption.train;

@@ -6,13 +6,13 @@ import { SLHttpService } from './http.service';
 import { Station } from './classes/station';
 import { Card } from './classes/card';
 import { Departure } from './classes/departure';
-import { CookieHandlerService } from './cookiehandler.service'
+import { CardStorageService } from './cardstorage.service'
 
 @Injectable()
 export class AppService {
     private cards: Card[] = [];
 
-    constructor(private http : SLHttpService, private cookiehandler: CookieHandlerService) {
+    constructor(private http : SLHttpService, private cardstorage: CardStorageService) {
         this.loadCards();
     }
 
@@ -33,6 +33,7 @@ export class AppService {
         var index = this.cards.indexOf(card);
         if (index > -1) {
             this.cards.splice(index, 1);
+            this.cardstorage.removeStoredCard(card);
         } else {
             // Tried to delete non-existing card
             console.error('Tried to delete non existing card: '+card);
@@ -40,17 +41,15 @@ export class AppService {
     }
 
     saveCard(card: Card){
-        this.cookiehandler.storeCard(card);
+        this.cardstorage.storeCard(card);
     }
 
-    //Obsolete? Since fredrik the buffoon structured cardsaving differently
-    // Cards are saved when created one by one and not in one batch
     saveCards() {
         // TODO: Save cards
     }
 
     loadCards() {
         // TODO: Load cards
-        this.cards = this.cookiehandler.getStoredCards();  
+        this.cards = this.cardstorage.getStoredCards();  
     }
 }

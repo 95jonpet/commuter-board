@@ -3,10 +3,12 @@ import { Station } from './station';
 import { SLHttpService } from '../http.service';
 import { RealtimeInfo } from './realtimeInfo';
 import { PlanData } from './planData';
+import { CardStorageService } from '../cardstorage.service';
 
 export class Card {
     type: String;
     from: Station;
+    id: number;
     to?: Station;
     departures?: Departure[] = [];
     trips?: Departure[][] = [];
@@ -16,7 +18,8 @@ export class Card {
     train?: boolean;
     subway?: boolean;
 
-    constructor(type: String, from: Station, to: Station, private http: SLHttpService) {
+    constructor(type: String, from: Station, to: Station, id: number,
+                private http: SLHttpService) {
         if (type != 'trip' && type != 'station') {
             throw new Error('Illegal card type: '+type);
         }
@@ -24,6 +27,7 @@ export class Card {
         this.type = type;
         this.from = from;
         this.to = to;
+        this.id = id;
 
         this.fetchDepartures();
     }

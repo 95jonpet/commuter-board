@@ -8,7 +8,7 @@ import { Location } from './classes/locations';
 import { RealtimeInfo } from './classes/realtimeInfo';
 import { LineData } from './classes/linedata';
 import { Situation } from './classes/situation';
-import { CookieHandlerService } from './cookiehandler.service'
+import { CardStorageService } from './cardstorage.service'
 
 @Component({
     selector: 'app',
@@ -78,7 +78,7 @@ export class AppComponent  {
     editMode: boolean = false;
     cards: Card[];
 
-    constructor(private app: AppService, private http: SLHttpService, private cookiehandler: CookieHandlerService) {
+    constructor(private app: AppService, private http: SLHttpService, private cardstorage: CardStorageService) {
         this.cards = app.getCards();
         var d = new Situation();
         http.getSituation(d).then(response => {

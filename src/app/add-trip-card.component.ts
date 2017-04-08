@@ -6,6 +6,7 @@ import { Card } from './classes/card';
 import { Station } from './classes/station';
 import { Location } from './classes/locations';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CardStorageService } from './cardstorage.service';
 
 @Component({
     selector: 'add-trip-card',
@@ -100,7 +101,8 @@ export class AddTripCardComponent {
     private fromName: string = '';
     private toName: string = '';
 
-    constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService) {
+    constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService,
+                private cardstorage: CardStorageService) {
         this.loadCookies();
     }
 
@@ -155,7 +157,8 @@ export class AddTripCardComponent {
                             'trip',
                             new Station(Number(fromData[0].SiteId), fromData[0].Name),
                             new Station(Number(toData[0].SiteId), toData[0].Name),
-                            this.http
+                            this.cardstorage.generateId(),
+                            this.http,
                         ));
                         component.onClose.emit();
 
