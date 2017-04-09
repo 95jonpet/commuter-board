@@ -48,9 +48,9 @@ export class CardStorageService {
 
         let from: Station = new Station(+localStorage.getItem(key + '_from_id'),
                                         localStorage.getItem(key + '_from_name'))
-        let to: Station;
+        let to: Station = null;
         if(type == 'trip') {
-            let to: Station = new Station(+localStorage.getItem(key + '_to_id'),
+            to = new Station(+localStorage.getItem(key + '_to_id'),
                                             localStorage.getItem(key + '_to_name'))
         }else{
             to = null;
@@ -76,7 +76,7 @@ export class CardStorageService {
         return card;
     }
 
-    /* Stores the card in seperate cookies */ 
+    /* Stores the card in seperate cookies */
     storeCard(card: Card){
         if(typeof(card) == undefined){
             console.log('card is undefined');
@@ -92,7 +92,7 @@ export class CardStorageService {
 
         //TYPE
         localStorage.setItem(key + '_type', card.type.toString());
-        
+
         //FROM
         localStorage.setItem(key + '_from_name', card.from.name);
         localStorage.setItem(key + '_from_id', card.from.id.toString());

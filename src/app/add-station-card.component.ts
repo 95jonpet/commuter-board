@@ -158,7 +158,7 @@ export class AddStationCardComponent {
         let location: Location = new Location(str);
         this.http.getLocations(new Location(str)).then((res: Array<any>) => {
             if (!res || res === []) return;
-            res.forEach((s: any) => {
+            res.slice(0, 5).forEach((s: any) => {
                 this.stations.push(new Station(s.SiteId, s.Name));
             });
         });
