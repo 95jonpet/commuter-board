@@ -17,29 +17,37 @@ import { CardStorageService } from './cardstorage.service';
 
                 <div class="pure-g">
                     <div class="pure-u-5-24">
-                        <input [(ngModel)]="fromName" (ngModelChange)='saveStartName($event)' class="start-input" type="text" name="start" placeholder="Start">
+                        <input [(ngModel)]="fromName" (focus)="onInputFocus(fromName, true)" (ngModelChange)='origInputChange($event)' 
+                            class="start-input" type="text" name="start" placeholder="Start">
                     </div>
                     <div class="pure-u-1-24"></div>
                     <div class="pure-u-5-24">
-                        <input [(ngModel)]="toName" (ngModelChange)='saveDestName($event)' class="destination-input" type="text" name="destination" placeholder="Destination">
+                        <input [(ngModel)]="toName" (focus)="onInputFocus(toName, false)" (ngModelChange)='destInputChange($event)' 
+                            class="destination-input" type="text" name="destination" placeholder="Destination">
                     </div>
                     <div class="pure-u-13-24">
 
-                        <input id="boat" class="checkbox-custom" type="checkbox">
+                        <input [checked]="transportOption.boat" (change)="transportOption.boat = !transportOption.boat" id="boat" class="checkbox-custom" type="checkbox">
                         <label for="boat" class="checkbox-custom-label"><i class="fa fa-ship"></i> Boat</label>
 
-                        <input id="train" class="checkbox-custom" type="checkbox" checked>
+                        <input [checked]="transportOption.train" (change)="transportOption.train = !transportOption.train" id="train" class="checkbox-custom" type="checkbox" checked>
                         <label for="train" class="checkbox-custom-label"><i class="fa fa-train"></i> Train</label>
 
-                        <input id="subway" class="checkbox-custom" type="checkbox" checked>
+                        <input [checked]="transportOption.subway" (change)="transportOption.subway = !transportOption.subway" id="subway" class="checkbox-custom" type="checkbox" checked>
                         <label for="subway" class="checkbox-custom-label"><i class="fa fa-subway"></i> Subway</label>
 
-                        <input id="bus" class="checkbox-custom" type="checkbox" checked>
+                        <input [checked]="transportOption.bus" (change)="transportOption.bus = !transportOption.bus" id="bus" class="checkbox-custom" type="checkbox" checked>
                         <label for="bus" class="checkbox-custom-label"><i class="fa fa-bus"></i> Bus</label>
                     </div>
-
+                    <div class="pure-u-18-24 suggestion-box" *ngIf="suggestions.length">
+                        Showing suggestions for <b *ngIf="focusOrig">origin</b><b *ngIf="!focusOrig">destination</b>
+                        <div (click)="selectSuggestion(station)" class="suggestion" *ngFor="let station of suggestions">
+                           {{ station.name }}
+                           <hr>
+                        </div>
+                    </div>
                 </div>
-                <a (click)="onAddCard()" class="pure-button" href="#">Add new card</a>
+                <a (click)="onAddCard()" class="pure-button" [class.button-disabled]="!(selectedOrigStation && selectedDestStation)" href="#">Add new card</a>
             </fieldset>
         </form>
     `,
@@ -94,6 +102,14 @@ import { CardStorageService } from './cardstorage.service';
             float:right;
             margin-top: 10%;
         }
+
+        .suggestion {
+            cursor:pointer;
+        }
+
+        .button-disabled {
+            cursor: not-allowed;
+        }
     `]
 })
 export class AddTripCardComponent {
@@ -101,9 +117,37 @@ export class AddTripCardComponent {
     private fromName: string = '';
     private toName: string = '';
 
+    private suggestions: Array<Station> = [];
+    private selectedOrigStation: Station = null;
+    private selectedDestStation: Station = null;
+    private focusOrig: boolean = true;
+    private timer: any = undefined;
+
+    private readonly NUMBER_OF_RESULTS: number = 5;
+    private readonly SUGGESTION_RESPONSE_TIME: number = 300;
+
+    private transportOption: any = {
+        bus: true,
+        boat: true,
+        train: true,
+        subway: true
+    }
+
     constructor(private app : AppService, private http: SLHttpService, private cookies: CookieService,
                 private cardstorage: CardStorageService) {
         this.loadCookies();
+    }
+
+    ngOnInit() {
+        this.selectedOrigStation = null;
+        this.selectedDestStation = null;
+        if (this.fromName) {
+            this.focusOrig = true;
+            this.fetchStationData(this.fromName);
+        } else if (this.toName) {
+            this.focusOrig = false;
+            this.fetchStationData(this.toName);
+        }
     }
 
     loadCookies(){
@@ -114,6 +158,50 @@ export class AddTripCardComponent {
         if(this.cookies.get("add_trip_dest_input") != undefined){
             this.toName = this.cookies.get("add_trip_dest_input");
         }
+    }
+
+    selectSuggestion(station: Station) {
+        if (this.focusOrig) {
+            this.fromName = station.name;
+            this.selectedOrigStation = station;
+        }
+        else {
+            this.toName = station.name;
+            this.selectedDestStation = station;
+        }
+        this.suggestions = [];
+    }
+
+    fetchStationData(str: string) {
+        if (str === '') return;
+        this.suggestions = [];
+        this.http.getLocations(new Location(str)).then((res: Array<any>) => {
+            if (!res || res === []) return;
+            res.slice(0, this.NUMBER_OF_RESULTS).forEach((s: any) => {
+                this.suggestions.push(new Station(s.SiteId, s.Name));
+            });
+        });
+    }
+
+    onInputFocus(val: string, orig: boolean) {
+        this.focusOrig = orig;
+        this.fetchStationData(val);
+    }
+
+    origInputChange(val: string) {
+        this.saveStartName(val);
+        this.inputChange(val, true);
+    }
+
+    destInputChange(val: string) {
+        this.saveDestName(val);
+        this.inputChange(val, false);
+    }
+
+    inputChange(val: string, orig: boolean) {
+        this.focusOrig = orig;
+        window.clearTimeout(this.timer);
+        this.timer = setTimeout(() => { this.fetchStationData(val); }, this.SUGGESTION_RESPONSE_TIME);
     }
 
     //TODO Expiration
@@ -131,41 +219,36 @@ export class AddTripCardComponent {
         this.cookies.remove("add_trip_dest_input")
     }
 
-    onAddCard() {
+    resetFields() {
         this.removeCookies();
+        this.toName = '';
+        this.fromName = '';
+        this.selectedOrigStation = null;
+        this.selectedDestStation = null;
+        this.suggestions = [];
+        this.focusOrig = true;
+        this.timer = undefined;
+    }
+
+    onAddCard() {
 
         var component = this;
-        if (this.fromName == '' || this.toName == '') {
-            return;
-        }
+        if (!this.selectedOrigStation || !this.selectedDestStation) return;
+        let card: Card = new Card(
+                'trip',
+                this.selectedOrigStation,
+                this.selectedDestStation,
+                this.cardstorage.generateId(),
+                this.http
+            );
 
-        this.http.getLocations(new Location(this.fromName))
-            .then(fromData => {
-                if (fromData.length < 1) {
-                    // TODO: No show result found alert
-                    return;
-                }
+        card.bus = this.transportOption.bus;
+        card.boat = this.transportOption.boat;
+        card.train = this.transportOption.train;
+        card.subway = this.transportOption.subway;
 
-                this.http.getLocations(new Location(this.toName))
-                    .then(toData => {
-                        if (toData.length < 1) {
-                            // TODO: No show result found alert
-                            return;
-                        }
-
-                        component.app.addCard(new Card(
-                            'trip',
-                            new Station(Number(fromData[0].SiteId), fromData[0].Name),
-                            new Station(Number(toData[0].SiteId), toData[0].Name),
-                            this.cardstorage.generateId(),
-                            this.http,
-                        ));
-                        component.onClose.emit();
-
-                        // Reset inputs
-                        component.fromName = '';
-                        component.toName = '';
-                    });
-            });
+        this.app.addCard(card);
+        this.onClose.emit();
+        this.resetFields();
     }
 }

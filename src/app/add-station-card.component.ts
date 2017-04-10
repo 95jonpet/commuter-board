@@ -155,7 +155,6 @@ export class AddStationCardComponent {
     fetchStationData(str: string) {
         if (str === '') return;
         this.stations = [];
-        let location: Location = new Location(str);
         this.http.getLocations(new Location(str)).then((res: Array<any>) => {
             if (!res || res === []) return;
             res.slice(0, 5).forEach((s: any) => {
@@ -178,8 +177,7 @@ export class AddStationCardComponent {
             return;
         }
 
-        let station: Station = this.selectedStation;
-        let card: Card = new Card('station', new Station(station.id, station.name), null, this.cardstorage.generateId(),
+        let card: Card = new Card('station', this.selectedStation, null, this.cardstorage.generateId(),
                                   this.http);
         card.bus = this.transportOption.bus;
         card.boat = this.transportOption.boat;
