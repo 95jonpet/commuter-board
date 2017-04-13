@@ -12,6 +12,7 @@ import { NextDeparturesComponent }  from './next-departures.component';
 import { AddCardComponent }  from './add-card.component';
 import { AddStationCardComponent }  from './add-station-card.component';
 import { AddTripCardComponent }  from './add-trip-card.component';
+import { InformationComponent } from './info.component'
 
 import { SLHttpService } from './http.service';
 
@@ -33,6 +34,7 @@ import { CardStorageService } from './cardstorage.service';
     AddCardComponent,
     AddStationCardComponent,
     AddTripCardComponent,
+    InformationComponent,
   ],
   providers:[
     AppService,

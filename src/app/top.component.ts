@@ -13,6 +13,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
                         <div class="toolbar">
                             <button (click)="onCreateCard()"><i class="fa fa-plus"></i></button>
                             <button (click)="onEnterEditMode()" [ngClass]="{'active': editing}"><i class="fa fa-pencil"></i></button>
+                            <button (click)="onInformation()" ><i class="fa fa-info"></i></button>
                         </div>
                     </div>
                 </div>
@@ -64,6 +65,7 @@ export class TopComponent {
     @Input() editing: boolean;
 
     @Output() createCard: EventEmitter<any> = new EventEmitter();
+    @Output() infoEventEmitter: EventEmitter<any> = new EventEmitter();
     @Output() editCards: EventEmitter<any> = new EventEmitter();
 
     onCreateCard() {
@@ -72,5 +74,9 @@ export class TopComponent {
 
     onEnterEditMode() {
         this.editCards.emit();
+    }
+
+    onInformation(){
+        this.infoEventEmitter.emit();
     }
 }
