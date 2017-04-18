@@ -29,6 +29,10 @@ export class AppService {
         this.saveCard(card);
     }
 
+    hasCard(card: Card) {
+        return this.cards.indexOf(card) > -1;
+    }
+
     deleteCard(card: Card) {
         var index = this.cards.indexOf(card);
         if (index > -1) {
@@ -40,7 +44,7 @@ export class AppService {
         }
     }
 
-    saveCard(card: Card){
+    saveCard(card: Card) {
         this.cardstorage.storeCard(card);
     }
 
@@ -50,6 +54,6 @@ export class AppService {
 
     loadCards() {
         // TODO: Load cards
-        this.cards = this.cardstorage.getStoredCards();  
+        this.cards = this.cardstorage.getStoredCards();
     }
 }

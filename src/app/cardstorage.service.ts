@@ -6,7 +6,7 @@ import {SLHttpService} from './http.service'
 
 @Injectable()
 export class CardStorageService {
-    storedCardKeys: Array<number>; 
+    storedCardKeys: Array<number>;
 
     constructor (private cookies: CookieService, private http: SLHttpService) {
         //localStorage.clear();
@@ -48,6 +48,7 @@ export class CardStorageService {
         card.boat = storedCardInfo.boat;
         card.train = storedCardInfo.train;
         card.subway = storedCardInfo.subway;
+        card.color = storedCardInfo.color || '#007991';
         return card;
     }
 
@@ -58,7 +59,7 @@ export class CardStorageService {
             return;
         }
 
-        let cardInfoHolder: any = {};        
+        let cardInfoHolder: any = {};
         cardInfoHolder.id = card.id;
         cardInfoHolder.type = card.type;
         cardInfoHolder.from = card.from;
@@ -67,11 +68,14 @@ export class CardStorageService {
         cardInfoHolder.boat = card.boat;
         cardInfoHolder.train = card.train;
         cardInfoHolder.subway = card.subway;
+        cardInfoHolder.color = card.color;
 
         localStorage.setItem(card.id.toString(), JSON.stringify(cardInfoHolder));
 
-        this.storedCardKeys.push(card.id);
-        localStorage.setItem('card_keys', JSON.stringify(this.storedCardKeys));
+        if (this.storedCardKeys.indexOf(card.id) <= -1) {
+            this.storedCardKeys.push(card.id);
+            localStorage.setItem('card_keys', JSON.stringify(this.storedCardKeys));
+        }
     }
 
     /* Removes the given card from localstorage */

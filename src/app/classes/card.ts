@@ -6,12 +6,23 @@ import { PlanData } from './planData';
 import { CardStorageService } from '../cardstorage.service';
 
 export class Card {
+    static colors: string[] = [
+        '#007991',
+        '#72789a',
+        '#8db360',
+        '#fa9418',
+        '#a2a284',
+        '#b388eb',
+        '#1b998b',
+    ];
+
     type: String;
     from: Station;
     id: number;
     to?: Station;
     departures?: Departure[] = [];
     trips?: Departure[][] = [];
+    color: string = '#007991';
 
     bus?: boolean;
     boat?: boolean;
@@ -135,5 +146,10 @@ export class Card {
         }
 
         return type;
+    }
+
+    public cycleColor(): void {
+        var index = Card.colors.indexOf(this.color) || 0;
+        this.color = Card.colors[(index + 1) % Card.colors.length];
     }
 }

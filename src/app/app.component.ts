@@ -18,10 +18,13 @@ import { CardStorageService } from './cardstorage.service'
             <div class="pure-g" dnd-sortable-container [sortableData]="cards">
                 <div class="card pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" *ngFor="let card of cards; let i = index" [ngClass]="{'draggable': editMode}" dnd-sortable [dragEnabled]="editMode" [sortableIndex]="i" (onDropSuccess)="onSaveCardPositions()">
                     <div class="panel">
-                        <div class="panel--header">
+                        <div class="panel--header" [ngStyle]="{'background-color': card.color}">
                             {{ card.from.name }}{{ card.type == 'trip' ? ' - '+card.to.name : '' }}
                             <button class="delete-button pure-button button-error" *ngIf="editMode" (click)="onDeleteCard(card)">
-                                <i class="fa fa-fw fa-trash-o"></i>
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                            <button class="color-button pure-button button-secondary" *ngIf="editMode" (click)="onChangeCardColor(card)">
+                                <i class="fa fa-paint-brush"></i>
                             </button>
                         </div>
                         <div class="panel--contents">
@@ -53,10 +56,15 @@ import { CardStorageService } from './cardstorage.service'
             cursor: -moz-grabbing !important;
         }
         .delete-button {
+            margin-right: -15px;
+        }
+        .color-button {
+            margin-right: 5px;
+        }
+        .color-button, .delete-button {
             float: right;
             cursor: pointer !important;
             margin-top: -5px;
-            margin-right: -15px;
             font-size: 85%;
         }
         .empty-hint {
@@ -76,7 +84,7 @@ import { CardStorageService } from './cardstorage.service'
 export class AppComponent  {
     name: String = 'Commuter Board';
     addingCard: boolean = false; //change to true to show on load
-    showInfo: boolean = false; 
+    showInfo: boolean = false;
     editMode: boolean = false;
     cards: Card[];
 
@@ -117,8 +125,12 @@ export class AppComponent  {
         this.app.saveCards();
     }
 
+    onChangeCardColor(card: Card) {
+        card.cycleColor();
+        this.app.saveCard(card);
+    }
+
     closeInfo(b: boolean){
         this.showInfo = b;
     }
-
 }
