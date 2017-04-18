@@ -87,6 +87,12 @@ export class AppComponent  {
             //console.error(error);
         });
 
+        // Update card data every 30 seconds
+        window.setInterval(() => {
+            this.cards.forEach(card => {
+                card.updateDepartures();
+            });
+        }, 30000);
     }
 
     onCreateCard() {

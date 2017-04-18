@@ -14,6 +14,10 @@ export class Departure {
         this.departureTime = departureTime;
         this.arrivalName = arrivalName;
         this.arrivalDatetime = arrivalTime;
+
+        if (this.departureTime == 'Nu') {
+            this.departureTime = 'Now';
+        }
     }
 
     arrivalTime(): String {

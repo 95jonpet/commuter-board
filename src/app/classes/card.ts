@@ -44,6 +44,7 @@ export class Card {
         var card = this;
         this.http.getTrip(new PlanData(this.from.id, this.to.id))
             .then(function (response) {
+                card.trips = [] // Reset trips on response
                 response.TripList.Trip.forEach(function (trip: any) {
                     var departures: Departure[] = [];
                     [].concat(trip.LegList.Leg).filter(function (leg: any) {
@@ -77,7 +78,7 @@ export class Card {
                 });
             });
     }
-    
+
     private fetchStationDepartures(): void {
         var card = this;
         let realtime: RealtimeInfo = new RealtimeInfo(this.from.id, 30);
@@ -89,6 +90,7 @@ export class Card {
 
         this.http.getRealtime(realtime)
             .then(function (data) {
+                card.departures = []; // Reset departures on response
                 [].concat(data.Buses || [], data.Metros || [], data.Trains || [], data.Trams || [], data.Ships || []) // Collect data
                 .sort(function (a, b) { // Sort based on departure time / line number
                     var aVal = a.DisplayTime.split(' ')[0];
@@ -137,5 +139,9 @@ export class Card {
                 this.fetchStationDepartures();
                 break;
         }
+    }
+
+    public updateDepartures(): void {
+        this.fetchDepartures();
     }
 }
