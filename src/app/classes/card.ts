@@ -51,23 +51,13 @@ export class Card {
                             return leg.type.toLowerCase() != 'walk';
                         })
                         .forEach(function (leg: any) {
-                            var type = '';
-                            switch (leg.type.toLowerCase()) {
-                                case 'metro':
-                                    type = 'subway';
-                                    break;
-                                default:
-                                    type = leg.type.toLowerCase();
-                                    break;
-                            }
-
                             var destinationDateString = leg.Destination.rtDate && leg.Destination.rtTime
                                 ? leg.Destination.rtDate+' '+leg.Destination.rtTime
                                 : leg.Destination.date+' '+leg.Destination.time;
 
                             departures.push(new Departure(
                                 leg.line,
-                                type,
+                                card.getTransportType(leg.type),
                                 leg.Origin.name,
                                 leg.Origin.rtTime || leg.Origin.time,
                                 leg.Destination.name,
@@ -107,19 +97,9 @@ export class Card {
                 })
                 .slice(0, 5) // Limit results
                 .forEach(function (object) { // Add departures to card
-                    var type = '';
-                    switch (object.TransportMode.toLowerCase()) {
-                        case 'metro':
-                            type = 'subway';
-                            break;
-                        default:
-                            type = object.TransportMode.toLowerCase();
-                            break;
-                    }
-
                     card.addDeparture(new Departure(
                         object.LineNumber,
-                        type,
+                        card.getTransportType(object.TransportMode),
                         card.from.name,
                         object.DisplayTime,
                         object.Destination,
@@ -142,5 +122,18 @@ export class Card {
 
     public updateDepartures(): void {
         this.fetchDepartures();
+    }
+
+    private getTransportType(type: string) {
+        type = type.toLowerCase();
+
+        switch (type) {
+            case 'metro':
+                return 'subway';
+            case 'tram':
+                return 'train';
+        }
+
+        return type;
     }
 }
