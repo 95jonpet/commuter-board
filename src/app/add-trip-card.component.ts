@@ -11,18 +11,18 @@ import { CardStorageService } from './cardstorage.service';
 @Component({
     selector: 'add-trip-card',
     template: `
-        <form class="pure-form">
+        <form class="pure-form" autocomplete="off">
             <fieldset>
                 <legend>Add new trip</legend>
 
                 <div class="pure-g">
                     <div class="pure-u-5-24">
-                        <input [(ngModel)]="fromName" (focus)="onInputFocus(fromName, true)" (ngModelChange)='origInputChange($event)' 
+                        <input [(ngModel)]="fromName" (focus)="onInputFocus(fromName, true)" (ngModelChange)='origInputChange($event)'
                             class="start-input" type="text" name="start" placeholder="Start">
                     </div>
                     <div class="pure-u-1-24"></div>
                     <div class="pure-u-5-24">
-                        <input [(ngModel)]="toName" (focus)="onInputFocus(toName, false)" (ngModelChange)='destInputChange($event)' 
+                        <input [(ngModel)]="toName" (focus)="onInputFocus(toName, false)" (ngModelChange)='destInputChange($event)'
                             class="destination-input" type="text" name="destination" placeholder="Destination">
                     </div>
                     <div class="pure-u-13-24">
@@ -42,8 +42,7 @@ import { CardStorageService } from './cardstorage.service';
                     <div class="pure-u-18-24 suggestion-box" *ngIf="suggestions.length">
                         Showing suggestions for <b *ngIf="focusOrig">origin</b><b *ngIf="!focusOrig">destination</b>
                         <div (click)="selectSuggestion(station)" class="suggestion" *ngFor="let station of suggestions">
-                           {{ station.name }}
-                           <hr>
+                            {{ station.name }}
                         </div>
                     </div>
                 </div>
@@ -105,6 +104,9 @@ import { CardStorageService } from './cardstorage.service';
 
         .suggestion {
             cursor:pointer;
+        }
+        .suggestion:not(:last-child) {
+            border-bottom: 1px solid #ccc;
         }
 
         .button-disabled {
@@ -173,10 +175,12 @@ export class AddTripCardComponent {
     }
 
     fetchStationData(str: string) {
-        if (str === '') return;
-        this.suggestions = [];
+        if (str.length < 2) {
+            this.suggestions = [];
+            return;
+        }
         this.http.getLocations(new Location(str)).then((res: Array<any>) => {
-            if (!res || res === []) return;
+            this.suggestions = [];
             res.slice(0, this.NUMBER_OF_RESULTS).forEach((s: any) => {
                 this.suggestions.push(new Station(s.SiteId, s.Name));
             });

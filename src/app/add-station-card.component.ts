@@ -12,7 +12,7 @@ import { CardStorageService } from './cardstorage.service';
 @Component({
     selector: 'add-station-card',
     template: `
-        <form class="pure-form">
+        <form class="pure-form" autocomplete="off">
             <fieldset>
                 <legend>Add new station</legend>
 
@@ -36,8 +36,7 @@ import { CardStorageService } from './cardstorage.service';
                     </div>
                     <div class="pure-u-18-24 suggestion-box">
                         <div (click)="selectSuggestion(station)" class="suggestion" *ngFor="let station of stations">
-                           {{ station.name }}
-                           <hr>
+                            {{ station.name }}
                         </div>
                     </div>
 
@@ -101,6 +100,9 @@ import { CardStorageService } from './cardstorage.service';
         .suggestion {
             cursor:pointer;
         }
+        .suggestion:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+        }
 
         .button-disabled {
             cursor: not-allowed;
@@ -153,10 +155,13 @@ export class AddStationCardComponent {
     }
 
     fetchStationData(str: string) {
-        if (str === '') return;
-        this.stations = [];
+        if (str.length < 2) {
+            this.stations = [];
+            return;
+        }
+
         this.http.getLocations(new Location(str)).then((res: Array<any>) => {
-            if (!res || res === []) return;
+            this.stations = [];
             res.slice(0, 5).forEach((s: any) => {
                 this.stations.push(new Station(s.SiteId, s.Name));
             });
