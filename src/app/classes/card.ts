@@ -86,7 +86,6 @@ export class Card {
         if (this.boat) realtime.Ship = this.boat;
         if (this.train) realtime.Tram = this.train;
         if (this.subway) realtime.Train = this.subway;
-        console.log(realtime);
 
         this.http.getRealtime(realtime)
             .then(function (data) {
