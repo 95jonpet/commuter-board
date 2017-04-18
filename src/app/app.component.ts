@@ -13,7 +13,7 @@ import { CardStorageService } from './cardstorage.service'
 @Component({
     selector: 'app',
     template: `
-        <top [title]="name" (createCard)="onCreateCard()" (editCards)="onToggleEditMode()" [editing]="editMode"></top>
+        <top [title]="name" (createCard)="onCreateCard()" (editCards)="onToggleEditMode()" (infoEventEmitter)="onShowInformation()" [editing]="editMode"></top>
         <div class="wrapper">
             <div class="pure-g" dnd-sortable-container [sortableData]="cards">
                 <div class="card pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" *ngFor="let card of cards; let i = index" [ngClass]="{'draggable': editMode}" dnd-sortable [dragEnabled]="editMode" [sortableIndex]="i" (onDropSuccess)="onSaveCardPositions()">
@@ -34,6 +34,7 @@ import { CardStorageService } from './cardstorage.service'
         </div>
         <div class="empty-hint" *ngIf="cards.length == 0">Click <i class="fa fa-plus"></i> to add a card</div>
         <add-card [(editing)]="addingCard" *ngIf="addingCard"></add-card>
+        <information (showingInfo)="closeInfo($event)" *ngIf="showInfo"></information>
     `,
     styles: [`
         .card {
@@ -75,6 +76,7 @@ import { CardStorageService } from './cardstorage.service'
 export class AppComponent  {
     name: String = 'Commuter Board';
     addingCard: boolean = false; //change to true to show on load
+    showInfo: boolean = false; 
     editMode: boolean = false;
     cards: Card[];
 
@@ -99,6 +101,10 @@ export class AppComponent  {
         this.addingCard = true;
     }
 
+    onShowInformation() {
+        this.showInfo = true;
+    }
+
     onDeleteCard(card: Card) {
         this.app.deleteCard(card);
     }
@@ -110,4 +116,9 @@ export class AppComponent  {
     onSaveCardPositions() {
         this.app.saveCards();
     }
+
+    closeInfo(b: boolean){
+        this.showInfo = b;
+    }
+
 }

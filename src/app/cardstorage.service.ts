@@ -6,15 +6,12 @@ import {SLHttpService} from './http.service'
 
 @Injectable()
 export class CardStorageService {
-    storedCardKeys: Array<number>; //TODO In order
+    storedCardKeys: Array<number>; 
 
     constructor (private cookies: CookieService, private http: SLHttpService) {
         //localStorage.clear();
         this.storedCardKeys = JSON.parse(localStorage.getItem('card_keys'));
-        if(this.storedCardKeys == null){
-            this.storedCardKeys = new Array<number>();
-        }
-        if(this.storedCardKeys == undefined){
+        if(this.storedCardKeys == null || this.storedCardKeys == undefined){
             this.storedCardKeys = new Array<number>();
         }
     }
@@ -29,7 +26,7 @@ export class CardStorageService {
                 max = this.storedCardKeys[i];
             }
         }
-        console.log(max);
+        //console.log(max);
         return max+1;
     }
 
@@ -42,101 +39,46 @@ export class CardStorageService {
         return cards;
     }
 
+    /* Extracts a card from localstorage with the given key */
     private extractCard(key: string): Card {
-        let type = localStorage.getItem(key + '_type');
+        let storedCardInfo: any = JSON.parse(localStorage.getItem(key));
 
-
-        let from: Station = new Station(+localStorage.getItem(key + '_from_id'),
-                                        localStorage.getItem(key + '_from_name'))
-        let to: Station = null;
-        if(type == 'trip') {
-            to = new Station(+localStorage.getItem(key + '_to_id'),
-                                            localStorage.getItem(key + '_to_name'))
-        }else{
-            to = null;
-        }
-        let id: number = +localStorage.getItem(key + '_id');
-
-        let card: Card = new Card(type, from, to, id, this.http);
-
-
-        if(localStorage.getItem(key + '_bus') != undefined){
-            card.bus = localStorage.getItem(key + '_bus') == 'true';
-        }
-        if(localStorage.getItem(key + '_boat') != undefined){
-            card.boat = localStorage.getItem(key + '_boat') == 'true';
-        }
-        if(localStorage.getItem(key + '_train') != undefined){
-            card.train = localStorage.getItem(key + '_train') == 'true';
-        }
-        if(localStorage.getItem(key + '_subway') != undefined){
-            card.subway = localStorage.getItem(key + '_subway') == 'true';
-        }
-
+        let card: Card = new Card(storedCardInfo.type, storedCardInfo.from, storedCardInfo.to, storedCardInfo.id, this.http);
+        card.bus = storedCardInfo.bus;
+        card.boat = storedCardInfo.boat;
+        card.train = storedCardInfo.train;
+        card.subway = storedCardInfo.subway;
         return card;
     }
 
-    /* Stores the card in seperate cookies */
+    /* Stores the card as a stringified JSON object */
     storeCard(card: Card){
         if(typeof(card) == undefined){
             console.log('card is undefined');
             return;
         }
-        console.log('stored keys: ' + this.storedCardKeys.length);
-        let id = card.id;
-        this.storedCardKeys.push(id);
-        let key = id.toString();
 
-        // ID
-        localStorage.setItem(key + '_id', card.id.toString());
+        let cardInfoHolder: any = {};        
+        cardInfoHolder.id = card.id;
+        cardInfoHolder.type = card.type;
+        cardInfoHolder.from = card.from;
+        cardInfoHolder.to = card.to;
+        cardInfoHolder.bus = card.bus;
+        cardInfoHolder.boat = card.boat;
+        cardInfoHolder.train = card.train;
+        cardInfoHolder.subway = card.subway;
 
-        //TYPE
-        localStorage.setItem(key + '_type', card.type.toString());
+        localStorage.setItem(card.id.toString(), JSON.stringify(cardInfoHolder));
 
-        //FROM
-        localStorage.setItem(key + '_from_name', card.from.name);
-        localStorage.setItem(key + '_from_id', card.from.id.toString());
-
-        if(card.type == 'trip'){
-            localStorage.setItem(key + '_to_name', card.to.name);
-            localStorage.setItem(key + '_to_id', card.to.id.toString());
-        }
-
-        if(card.bus){
-            localStorage.setItem(key + '_bus', '' + card.bus);
-        }
-        if(card.boat){
-            localStorage.setItem(key + '_boat', '' + card.boat);
-        }
-        if(card.train){
-            localStorage.setItem(key + '_train', '' + card.train);
-        }
-        if(card.subway){
-            localStorage.setItem(key + '_subway', '' + card.subway);
-        }
-
+        this.storedCardKeys.push(card.id);
         localStorage.setItem('card_keys', JSON.stringify(this.storedCardKeys));
     }
 
     /* Removes the given card from localstorage */
     removeStoredCard(card: Card){
-        let key = card.id.toString();
-        localStorage.removeItem(key + '_id');
-        localStorage.removeItem(key + '_type');
-        localStorage.removeItem(key + '_from_name');
-        localStorage.removeItem(key + '_from_id');
-        localStorage.removeItem(key + '_to_name');
-        localStorage.removeItem(key + '_to_id');
-        localStorage.removeItem(key + '_bus');
-        localStorage.removeItem(key + '_boat');
-        localStorage.removeItem(key + '_train');
-        localStorage.removeItem(key + '_subway');
+        localStorage.removeItem(card.id.toString());
         this.storedCardKeys.splice(this.storedCardKeys.indexOf(card.id),1)
         localStorage.setItem('card_keys', JSON.stringify(this.storedCardKeys));
     }
 
-
-    debug(){
-        console.log();
-    }
 }
