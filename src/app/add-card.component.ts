@@ -62,6 +62,8 @@ import { Departure } from './classes/departure';
         }
         .panel {
         	margin: 0;
+            max-height: 100vh;
+            overflow-y: auto;
         }
 
         .title {
