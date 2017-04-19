@@ -49,11 +49,12 @@ export class AppService {
     }
 
     saveCards() {
-        // TODO: Save cards
+        this.cards.forEach(card => {
+            this.saveCard(card);
+        })
     }
 
     loadCards() {
-        // TODO: Load cards
         this.cards = this.cardstorage.getStoredCards();
     }
 }
