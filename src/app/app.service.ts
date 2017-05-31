@@ -45,13 +45,13 @@ export class AppService {
     }
 
     saveCard(card: Card) {
-        this.cardstorage.storeCard(card);
+        this.cardstorage.storeCard(card, this.cards.indexOf(card));
     }
 
     saveCards() {
         this.cards.forEach(card => {
             this.saveCard(card);
-        })
+        });
     }
 
     loadCards() {

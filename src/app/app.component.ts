@@ -110,7 +110,7 @@ export class AppComponent  {
     }
 
     onShowInformation() {
-        this.showInfo = true;
+        this.showInfo = true
     }
 
     onDeleteCard(card: Card) {
@@ -122,6 +122,7 @@ export class AppComponent  {
     }
 
     onSaveCardPositions() {
+        console.log(this.cards);
         this.app.saveCards();
     }
 

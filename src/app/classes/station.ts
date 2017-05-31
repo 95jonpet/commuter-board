@@ -2,8 +2,8 @@ import { Departure } from './departure';
 import { SLHttpService } from '../http.service';
 
 export class Station {
-    id: number;
-    name: string;
+    public id: number;
+    public name: string;
 
     constructor(id: number, name: string) {
         this.id = id;

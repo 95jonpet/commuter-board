@@ -182,7 +182,9 @@ export class AddStationCardComponent {
             return;
         }
 
-        let card: Card = new Card('station', this.selectedStation, null, this.cardstorage.generateId(),
+        let station: Station = new Station(this.selectedStation.id, this.selectedStation.name);
+
+        let card: Card = new Card('station', station, null, this.cardstorage.generateId(),
                                   this.http);
         card.bus = this.transportOption.bus;
         card.boat = this.transportOption.boat;
@@ -191,8 +193,12 @@ export class AddStationCardComponent {
 
         component.app.addCard(card);
         component.onClose.emit();
+
         component.stationName = '';
-        component.selectedStation = null;
         component.stations = [];
+
+        setTimeout(function () {
+            component.selectedStation = null;
+        }, 5000);
     }
 }
