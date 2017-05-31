@@ -75,6 +75,7 @@ import { CardStorageService } from './cardstorage.service';
 
 		.checkbox-custom + .checkbox-custom-label:before {
 		    content: '';
+            line-height: 20px;
 		    background: #fff;
 		    border: 2px solid #ddd;
 		    display: inline-block;
@@ -84,9 +85,12 @@ import { CardStorageService } from './cardstorage.service';
 		    padding: 2px;
 		    margin-right: 10px;
 		    text-align: center;
+		    background-color: #ccc;
 		}
 
 		.checkbox-custom:checked + .checkbox-custom-label:before {
+            content: '✓';
+            color: white;
 		    background-color: #007991;
 		}
         .pure-button {
